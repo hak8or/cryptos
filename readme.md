@@ -30,4 +30,4 @@ Go to localhost:3000 to view your CryptoCurrency information
 
 Author: Hak8or
 
-*License: [GPL](https://github.com/hak8or/cryptos/GPL.TXT).*
+*License: [GPL](https://github.com/hak8or/cryptos/GPL.txt.*
