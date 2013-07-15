@@ -1,0 +1,70 @@
+<h1 class="subheader" style="padding-left: 10px">Listing user_infos</h1>
+
+<div class="row full-width" style="margin-left: 20px">
+  <div class="large-1 columns">
+    <%= button_to "enable logging", :action => "start_log" %>
+  </div>
+
+  <div class="large-11 columns">
+
+    <div style="margin-left:90%">
+      <%= button_to "NUKE", :action => "NUKE" %>
+    </div>
+    
+
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Pass</th>
+          <th>BTC</th>
+          <th>LTC</th>
+          <th>PPC</th>
+          <th>NMC</th>
+          <th>XPM</th>
+          <th>AsicMiner</th>
+          <th>AsicMiner small</th>
+          <th>Advanced Mining Corp</th>
+          <th>Misc1</th>
+          <th>Misc2</th>
+          <th>Misc3</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @user_infos.each do |user_info| %>
+          <tr>
+            <td><%= user_info.user %></td>
+            <td><%= user_info.pass %></td>
+            <td><%= user_info.BTC %></td>
+            <td><%= user_info.LTC %></td>
+            <td><%= user_info.PPC %></td>
+            <td><%= user_info.NMC %></td>
+            <td><%= user_info.XPM %></td>
+            <td><%= user_info.AsicMiner %></td>
+            <td><%= user_info.AsicMiner_small %></td>
+            <td><%= user_info.Advanced_Mining_Corp %></td>
+            <td><%= user_info.misc1 %></td>
+            <td><%= user_info.misc2 %></td>
+            <td><%= user_info.misc3 %></td>
+            <td><%= user_info.comment %></td>
+            <td><%= user_info.time_changed %></td>
+            <td><%= link_to 'Show', user_info %></td>
+            <td><%= link_to 'Edit', edit_user_info_path(user_info) %></td>
+            <td><%= link_to 'Destroy', user_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+    <%= link_to 'New User info', new_user_info_path, class: "button radius", style: "margin-left:60%" %>
+
+  </div>
+
+</div>

@@ -1,0 +1,514 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"do",
+				"dob	Insert do |variable| … end"
+			],
+			[
+				"Tim",
+				"TimedAsset"
+			],
+			[
+				"ass",
+				"asset"
+			],
+			[
+				"Ti",
+				"timed_asset"
+			],
+			[
+				"Worker",
+				"HardWorker"
+			],
+			[
+				"cla",
+				"cla	class .. < ParentClass .. initialize .. end"
+			],
+			[
+				"BTC",
+				"BTC"
+			],
+			[
+				"LTC",
+				"LTC_USD"
+			],
+			[
+				"User",
+				"UserInfo"
+			],
+			[
+				"st",
+				"style	Attr"
+			],
+			[
+				"des",
+				"destroy"
+			],
+			[
+				"dest",
+				"destroy_all"
+			],
+			[
+				"max",
+				"max_length"
+			],
+			[
+				"to",
+				"to_s"
+			],
+			[
+				"sub",
+				"Submit"
+			],
+			[
+				"button",
+				"button_to"
+			],
+			[
+				"butt",
+				"button_to"
+			],
+			[
+				"comm",
+				"comment"
+			],
+			[
+				"fin",
+				"find"
+			],
+			[
+				"lin",
+				"link_to"
+			],
+			[
+				"pa",
+				"params"
+			],
+			[
+				"new",
+				"newitem"
+			],
+			[
+				"nam",
+				"name"
+			],
+			[
+				"si",
+				"size"
+			],
+			[
+				"for",
+				"form"
+			],
+			[
+				"par",
+				"Params"
+			],
+			[
+				"ma",
+				"margin-top"
+			],
+			[
+				"bo",
+				"border"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"fon",
+				"font-family"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"back",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/views/layouts/application.html.erb",
+			"settings":
+			{
+				"buffer_size": 1005,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/staticpages/homepage.html.erb",
+			"settings":
+			{
+				"buffer_size": 4481,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/staticpages_controller.rb",
+			"settings":
+			{
+				"buffer_size": 2198,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "class HardWorker\n	include Sidekiq::Worker\n	require 'net/http'\n\n	def perform(name, count)\n		i = 0\n		while i != 1\n			puts \"1 minute sleep\"\n			sleep 60\n\n			puts \"1 minute asset fetch V05  \" + Time.now.to_s + \"  Row: \" + TimedAsset.count.to_s\n\n			another_row = TimedAsset.new(\n				:BTC => MTGOX_USD(\"BTC\"),\n				:LTC => BTC_E(\"LTC\"),\n				:PPC => BTC_E(\"PPC\"),\n				:NMC => BTC_E(\"NMC\"),\n				:XPM => 0.004,\n				:AsicMiner => BTCT_BTC(\"ASICMINER-PT\"),\n				:AsicMiner_small => BTCT_BTC(\"TAT.ASICMINER\"),\n				:Advanced_Mining_Corp => BTCT_BTC(\"AMC-PT\"),\n				:misc1 => 0,\n				:misc2 => 0,\n				:misc3 => 0,\n				:comment => \"HardWorker did this\",\n				:time_changed => Time.now\n			)\n			another_row.save\n\n			puts 'Done with hard work!'\n		end\n	end\n\n	def 5_minute_assets(count)\n		i = 0\n		while i != 0\n			puts \"5 minute sleep\"\n			sleep 300\n			puts \"5 minute averaging starting: \" + Time.now\n\n			5.times do |i|\n				\n			end\n\n		end\n	end\n\n	def BTCT_BTC(asset)\n		url = \"https://btct.co/api/ticker/\" + asset.to_s\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['last_price']\n	end\n\n	def BTC_E_USD(cryptocurrency)\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"https://btc-e.com/api/2/btc_usd/ticker\"\n			when \"LTC\" then\n				\"https://btc-e.com/api/2/ltc_usd/ticker\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['ticker']['last']\n	end\n\n	def BTC_E(cryptocurrency)\n		sleep 0.1\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"https://btc-e.com/api/2/btc_usd/ticker\"\n			else\n				\"https://btc-e.com/api/2/\" + cryptocurrency.downcase + \"_btc/ticker\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['ticker']['last']\n	end\n\n	# No need for the case since MTGOX currently only has BTC.\n	def MTGOX_USD(cryptocurrency)\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"http://data.mtgox.com/api/2/BTCUSD/money/ticker_fast?pretty\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['data']['last']['value']\n	end\n\n	def havlock_BTC(asset)\n		url = \"https://www.havelockinvestments.com/r/ticker\"\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n\n		return result[asset.upcase]['last']\n	end\nend",
+			"file": "app/workers/hard_worker.rb",
+			"file_size": 2555,
+			"file_write_time": 130181989252550253,
+			"settings":
+			{
+				"buffer_size": 2498,
+				"line_ending": "Windows",
+				"name": "class Hardworker"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 219.0,
+		"selected_items":
+		[
+		],
+		"width": 370.0
+	},
+	"console":
+	{
+		"height": 153.0,
+		"history":
+		[
+			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print('Please restart Sublime Text to finish installation')",
+			"https://sublime.wbond.net/alpha/packages.json"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"//UBUNTU/hak8or/cryptos/app/controllers/user_infos_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/views/timed_assets/index.html.erb",
+		"//UBUNTU/hak8or/cryptos/Gemfile",
+		"//UBUNTU/hak8or/cryptos/app/views/layouts/application.html.erb",
+		"//UBUNTU/hak8or/cryptos/db/schema.rb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/application_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/views/user_infos/index.html.erb",
+		"//UBUNTU/hak8or/cryptos/config/routes.rb",
+		"//UBUNTU/hak8or/cryptos/config/environments/development.rb",
+		"//UBUNTU/hak8or/cryptos/app/views/user_infos/new.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/views/user_infos/_form.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/assets/stylesheets/staticpages.css.scss",
+		"//UBUNTU/hak8or/cryptos/app/assets/stylesheets/application.css",
+		"//UBUNTU/hak8or/cryptos/app/views/staticpages/homepage.html.erb",
+		"//UBUNTU/hak8or/hello/config/routes.rb",
+		"//UBUNTU/hak8or/hello/app/controllers/items_controller.rb",
+		"//UBUNTU/hak8or/hello/app/models/staticpages.rb",
+		"//UBUNTU/hak8or/hello/app/controllers/staticpages_controller.rb",
+		"//UBUNTU/hak8or/hello/app/views/staticpages/mainpage.html.erb",
+		"//UBUNTU/hak8or/hello/Gemfile",
+		"//UBUNTU/hak8or/hello/config/environments/development.rb",
+		"//UBUNTU/hak8or/hello/app/views/staticpages/_table_view.html.erb",
+		"//UBUNTU/hak8or/hello/app/views/items/index.html.erb",
+		"//UBUNTU/hak8or/hello/app/models/item.rb",
+		"//UBUNTU/hak8or/hello/app/models/staticpage.rb",
+		"//UBUNTU/hak8or/hello/app/views/layouts/application.html.erb",
+		"//UBUNTU/hak8or/hello/app/controllers/application_controller.rb",
+		"//UBUNTU/hak8or/hello/app/views/items/edit.html.erb",
+		"//UBUNTU/hak8or/hello/app/views/items/_form.html.erb",
+		"//UBUNTU/hak8or/hello/app/views/items/foo.html.erb",
+		"//UBUNTU/hak8or/hello/app/assets/javascripts/items.js.coffee",
+		"//UBUNTU/hak8or/hello/app/assets/stylesheets/items.css.scss",
+		"//UBUNTU/hak8or/hello/app/views/items/new.html.erb",
+		"//UBUNTU/hak8or/hello/app/assets/stylesheets/foundation_and_overrides.scss",
+		"//UBUNTU/hak8or/hello/app/assets/stylesheets/scaffolds.css.scss",
+		"/C/Users/hak8or/Desktop/Sublime Text 3/Data/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/hak8or/Desktop/Sublime Text 3/Data/Packages/User/Preferences.sublime-settings",
+		"//UBUNTU/hak8or/hello/app/views/static_pages/help.html.erb",
+		"//UBUNTU/hak8or/hello/app/views/static_pages/home.html.erb",
+		"//UBUNTU/hak8or/hello/app/controllers/static_pages_controller.rb",
+		"/C/Users/hak8or/Desktop/Sublime Text 3/hello_proj.sublime-project",
+		"/C/Sites/hello/Gemfile",
+		"/C/Sites/hello/app/views/layouts/application.html.erb",
+		"/C/Users/tahmidkarim/web8/index.html",
+		"/D/Software/Portable/Sublime Text 3/Data/Packages/User/Default (Windows).sublime-keymap",
+		"/D/Software/Portable/Sublime Text 3/Data/Packages/Browser Refresh/Default (Windows).sublime-keymap",
+		"/D/Software/Portable/Sublime Text 3/Data/Packages/Default/Preferences.sublime-settings",
+		"/D/Software/Portable/Sublime Text 3/Data/Packages/User/Preferences.sublime-settings",
+		"/C/Users/tahmidkarim/web8/main.css",
+		"/D/Software/Portable/Sublime Text 3/Data/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/tahmidkarim/Desktop/Sublime Text 3/Data/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"LTC_worth_in_USD",
+			"sample",
+			"stream",
+			"strea,",
+			"script",
+			"body",
+			"			\"",
+			"t.float",
+			"user_info.",
+			"%></td>",
+			"<td><%=",
+			"<td><%",
+			"<td><%=",
+			"<td><%",
+			"<td><%=",
+			"table",
+			"62.5",
+			"max-width",
+			"max",
+			"10",
+			"1000",
+			" row",
+			"row ",
+			"width",
+			"auto",
+			"009bdf"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/views/layouts/application.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1005,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								561,
+								561
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/views/staticpages/homepage.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4481,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4387,
+								4387
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1254.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/controllers/staticpages_controller.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2198,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								467,
+								467
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/workers/hard_worker.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2498,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								896,
+								896
+							]
+						],
+						"settings":
+						{
+							"auto_name": "class Hardworker",
+							"spell_check": false,
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "sublime_proj.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 58.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 184.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

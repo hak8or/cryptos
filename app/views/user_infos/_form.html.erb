@@ -1,0 +1,77 @@
+<%= form_for(@user_info) do |f| %>
+  <% if @user_info.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_info.errors.count, "error") %> prohibited this user_info from being saved:</h2>
+
+      <ul>
+      <% @user_info.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user %><br>
+    <%= f.text_field :user %>
+  </div>
+  <div class="field">
+    <%= f.label :pass %><br>
+    <%= f.text_field :pass %>
+  </div>
+  <div class="field">
+    <%= f.label :BTC %><br>
+    <%= f.text_field :BTC %>
+  </div>
+  <div class="field">
+    <%= f.label :LTC %><br>
+    <%= f.text_field :LTC %>
+  </div>
+  <div class="field">
+    <%= f.label :PPC %><br>
+    <%= f.text_field :PPC %>
+  </div>
+  <div class="field">
+    <%= f.label :NMC %><br>
+    <%= f.text_field :NMC %>
+  </div>
+  <div class="field">
+    <%= f.label :XPM %><br>
+    <%= f.text_field :XPM %>
+  </div>
+  <div class="field">
+    <%= f.label :AsicMiner %><br>
+    <%= f.number_field :AsicMiner %>
+  </div>
+  <div class="field">
+    <%= f.label :AsicMiner_small %><br>
+    <%= f.number_field :AsicMiner_small %>
+  </div>
+  <div class="field">
+    <%= f.label :Advanced_Mining_Corp %><br>
+    <%= f.number_field :Advanced_Mining_Corp %>
+  </div>
+  <div class="field">
+    <%= f.label :misc1 %><br>
+    <%= f.text_field :misc1 %>
+  </div>
+  <div class="field">
+    <%= f.label :misc2 %><br>
+    <%= f.text_field :misc2 %>
+  </div>
+  <div class="field">
+    <%= f.label :misc3 %><br>
+    <%= f.text_field :misc3 %>
+  </div>
+  <div class="field">
+    <%= f.label :comment %><br>
+    <%= f.text_area :comment %>
+  </div>
+  <div class="field">
+    <%= f.label :time_changed %><br>
+    <%= f.datetime_select :time_changed %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

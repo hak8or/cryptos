@@ -1,0 +1,51 @@
+<h1>Listing fiveminute_timed_assets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Btc</th>
+      <th>Ltc</th>
+      <th>Ppc</th>
+      <th>Nmc</th>
+      <th>Xpm</th>
+      <th>Asicminer</th>
+      <th>Asicminer small</th>
+      <th>Advanced mining corp</th>
+      <th>Misc1</th>
+      <th>Misc2</th>
+      <th>Misc3</th>
+      <th>Comment</th>
+      <th>Time changed</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fiveminute_timed_assets.each do |fiveminute_timed_asset| %>
+      <tr>
+        <td><%= fiveminute_timed_asset.BTC %></td>
+        <td><%= fiveminute_timed_asset.LTC %></td>
+        <td><%= fiveminute_timed_asset.PPC %></td>
+        <td><%= fiveminute_timed_asset.NMC %></td>
+        <td><%= fiveminute_timed_asset.XPM %></td>
+        <td><%= fiveminute_timed_asset.AsicMiner %></td>
+        <td><%= fiveminute_timed_asset.AsicMiner_small %></td>
+        <td><%= fiveminute_timed_asset.Advanced_Mining_Corp %></td>
+        <td><%= fiveminute_timed_asset.misc1 %></td>
+        <td><%= fiveminute_timed_asset.misc2 %></td>
+        <td><%= fiveminute_timed_asset.misc3 %></td>
+        <td><%= fiveminute_timed_asset.comment %></td>
+        <td><%= fiveminute_timed_asset.time_changed %></td>
+        <td><%= link_to 'Show', fiveminute_timed_asset %></td>
+        <td><%= link_to 'Edit', edit_fiveminute_timed_asset_path(fiveminute_timed_asset) %></td>
+        <td><%= link_to 'Destroy', fiveminute_timed_asset, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fiveminute timed asset', new_fiveminute_timed_asset_path %>

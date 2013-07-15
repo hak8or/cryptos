@@ -1,0 +1,151 @@
+<div class="row full-width" style="padding-top:2%">
+	<div class="large-2 columns"> 
+		<h1 class="subheader">BTC: $<%= @BTC_USD_VALUE.round(2) %></h2>
+		
+		<h4 class="subheader" style="padding-top:40px">Altcoins</h4>
+		BTC: <%= UserInfo.last.BTC.round(4) %> BTC <br>
+		LTC: <%= (UserInfo.last.LTC * @assets.last.LTC).round(4) %> BTC <br>
+		PPC: <%= (UserInfo.last.PPC * @assets.last.PPC).round(4) %> BTC <br>
+		NMC: <%= (UserInfo.last.NMC * @assets.last.NMC).round(4) %> BTC <br>
+		XPM: <%= (UserInfo.last.XPM * @assets.last.XPM).round(4) %> BTC
+
+		<h4 class="subheader" style="padding-top:40px">Investments</h4>
+		AsicMiner: <%= (UserInfo.last.AsicMiner * @assets.last.AsicMiner).round(4) %> BTC <br>
+		AsicMiner small: <%= (UserInfo.last.AsicMiner_small * @assets.last.AsicMiner_small).round(4) %> BTC <br>
+		Advanced Mining Corp: <%=(UserInfo.last.Advanced_Mining_Corp * @assets.last.Advanced_Mining_Corp).round(4)%> BTC
+
+		<h4 class="subheader" style="padding-top:40px">Totals</h4>
+		Total BTC of assets: <%= @assets_in_BTC.round(5) %> <br>
+		Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %>
+	</div>
+
+	<div class="large-10 columns">
+		<div id="chart1">
+	    	<svg style="height:300px;"></svg>
+	  	</div>
+
+	  	<div id="test1" style="padding-top:20px">
+	    	<svg style="height:500px;"></svg>
+	  	</div>
+	</div>
+</div>
+
+<script>
+function get_BTC_prices() {
+		var my_data = [];
+
+		<% @assets.last(500).each_with_index do |asset, index| %>
+			my_data.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', y: <%= asset.BTC %>})
+		<% end %>
+
+		return [{
+			//area: true,
+			values: my_data,
+			key: "BTC USD",
+			color: "#2ca0Fc"
+		}];
+	}
+
+	// Wrapping in nv.addGraph allows for '0 timeout render', stores rendered charts in nv.graphs, and may do more in the future... it's NOT required
+	var chart;
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.x(function(d,i) { return i })
+
+	  chart.xAxis
+      .tickFormat(function(p) {
+        return d3.time.format('%M')(new Date(p))
+      });
+
+      chart.yAxis.tickFormat(function(d) { return '$' + d3.format(',.2f')(d) });
+
+	  d3.select('#chart1 svg')
+	      //.datum([]) //for testing noData
+	      .datum(get_BTC_prices())
+	    .transition().duration(500)
+	      .call(chart);
+
+	  //TODO: Figure out a good way to do this automatically
+	  nv.utils.windowResize(chart.update);
+	  //nv.utils.windowResize(function() { d3.select('#chart1 svg').call(chart) });
+
+	  chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+
+	  return chart;
+	});
+
+	// Wrapping in nv.addGraph allows for '0 timeout render', stores rendered charts in nv.graphs, and may do more in the future... it's NOT required
+	//==================================================CHART 2=====================================================
+	//==================================================CHART 2=====================================================
+	//==================================================CHART 2=====================================================
+	//==================================================CHART 2=====================================================
+	var chart2;
+	<% amount_of_items = 30 %>
+	<% user_info = UserInfo.last %>
+	
+	function my_data_function() {
+		var LTC_and_PPC_worth_in_USD = [];
+		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
+			LTC_and_PPC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+									   y: <%= (user_info.LTC * asset.LTC * asset.BTC) + 
+								   		  	  (user_info.PPC * asset.PPC * asset.BTC) %>})
+		<% end %>
+
+		var BTC_worth_in_USD = [];
+		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
+			BTC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', y: <%= user_info.BTC * asset.BTC %>})
+		<% end %>
+
+		var AMC_worth_in_USD = [];
+		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
+			AMC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+								   y: <%= user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp * asset.BTC %>})
+		<% end %>
+
+		var AsicMiner_worth_in_USD = [];
+		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
+			AsicMiner_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+								   y: <%= (user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
+								   		  (user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC) %>})
+		<% end %>
+
+		return [{
+			values: LTC_and_PPC_worth_in_USD,
+			key: "LTC PPC"
+		},
+		{
+			values: BTC_worth_in_USD,
+			key: "BTC"
+		},
+		{
+			values: AMC_worth_in_USD,
+			key: "AMC"
+		},
+		{
+			values: AsicMiner_worth_in_USD,
+			key: "AsicMiner"
+		}];
+	}
+
+	nv.addGraph({
+	  generate: function() {
+		var width = nv.utils.windowSize().width - 40,
+		height = nv.utils.windowSize().height - 40;
+
+		var chart2 = nv.models.multiBarChart();
+
+		chart2.yAxis.tickFormat(function(d) { return '$' + d3.format(',.2f')(d) });
+
+	    var svg = d3.select('#test1 svg')
+	      //.attr('width', width)
+	      .attr('height', height)
+	      .datum(my_data_function());
+
+	    svg.transition().duration(550).call(chart2);
+
+	    return chart2;
+	  },
+	});
+</script>

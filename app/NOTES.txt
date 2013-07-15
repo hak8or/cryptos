@@ -1,0 +1,30 @@
+------------------ NOTES ------- NOTES ------- NOTES ------------------
+Maybe use an array instead of that horrific long case statement?
+
+	Array[five_min_table, thirty_min_table, hundredtwenty_min_table, threesixty_min_table]
+
+	if five_min_table.not_nil then FiveminuteTimedAsset.new(Array.five_min_table)
+	....
+	if thirty_min_table.not_nil then ThirtyMinTimedAsset.new(Array.thirty_min_table)
+
+
+	#minutes = [5, 30, 120, 360]
+
+		#minutes.each{ |minute|
+		#		puts "Doing " + minute + " table now"
+		#
+		#		TimedAsset.count.times do |variable|
+		#			puts "This will loop over the entire TimedAsset Table"
+		#		end
+
+Just do one damn table first!
+First up is doing the 5 minute moving average table
+
+	large_table = TimedAsset.all
+
+	while large_table.count >= 5
+		new_table = large_table.shift(5)
+		large_5min_table.save(average(new_table, 5))
+	end
+
+	

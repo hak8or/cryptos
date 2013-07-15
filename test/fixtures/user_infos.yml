@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: MyString
+  pass: MyString
+  BTC: 1.5
+  LTC: 1.5
+  PPC: 1.5
+  NMC: 1.5
+  XPM: 1.5
+  AsicMiner: 1
+  AsicMiner_small: 1
+  Advanced_Mining_Corp: 1
+  misc1: 1.5
+  misc2: 1.5
+  misc3: 1.5
+  comment: MyText
+  time_changed: 2013-07-10 15:55:05
+
+two:
+  user: MyString
+  pass: MyString
+  BTC: 1.5
+  LTC: 1.5
+  PPC: 1.5
+  NMC: 1.5
+  XPM: 1.5
+  AsicMiner: 1
+  AsicMiner_small: 1
+  Advanced_Mining_Corp: 1
+  misc1: 1.5
+  misc2: 1.5
+  misc3: 1.5
+  comment: MyText
+  time_changed: 2013-07-10 15:55:05
