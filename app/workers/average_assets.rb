@@ -1,7 +1,7 @@
 class AverageAssets
 	include Sidekiq::Worker
 
-	def perform(minutes)
+	def perform(minutes = 5)
 		i = 1
 		while i != 0
 			puts minutes.to_s + " minutes averaging starting: " + Time.now.to_s + "  Row: " + FiveminuteTimedAsset.count.to_s

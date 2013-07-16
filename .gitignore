@@ -4,3 +4,5 @@
 database.yml
 development.sqlite3
 development.sqlite3.backup
+tmp/
+log/

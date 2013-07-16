@@ -1,0 +1,71 @@
+------------------ NOTES ------- NOTES ------- NOTES ------------------
+
+SQLITE3 does not handle cuncurrent reads and writes well, making the average old assets method 
+	not work due to the method being very parallal (writes at same time). Postgresql handles this
+	without any issues, so I am using postgress now instead. Also, holy hell is it faster!
+
+To setup postgress and migrate data. Read what is under this first though.
+	http://railscasts.com/episodes/342-migrating-to-postgresql?view=asciicast
+
+Install postgresql via apt-get. Don't bother with the GUI administrative since ubuntu server does
+	not use GUI and interfacing to it over the network is a massive PITA.
+
+to get postgres bundle working, do
+ 	sudo apt-get install ruby-dev libpq-dev build-essential
+
+For setting up postgres with rails
+ 	http://stackoverflow.com/questions/9987171/rails-3-2-fatal-peer-authentication-failed-for-user-pgerror
+
+ 	http://www.davidpashley.com/articles/postgresql-user-administration/ <-- fill out the DB info in rails
+ 																		      ^^ Create user in postgres
+ 	http://www.davidpashley.com/articles/postgresql-user-administration/ <-- Give user permission to user for createdb
+
+
+
+
+
+
+------ I reversed order here, new stuff goes ontop, not bottom -----
+
+Maybe use an array instead of that horrific long case statement?
+
+	Array[five_min_table, thirty_min_table, hundredtwenty_min_table, threesixty_min_table]
+
+	if five_min_table.not_nil then FiveminuteTimedAsset.new(Array.five_min_table)
+	....
+	if thirty_min_table.not_nil then ThirtyMinTimedAsset.new(Array.thirty_min_table)
+
+
+	#minutes = [5, 30, 120, 360]
+
+		#minutes.each{ |minute|
+		#		puts "Doing " + minute + " table now"
+		#
+		#		TimedAsset.count.times do |variable|
+		#			puts "This will loop over the entire TimedAsset Table"
+		#		end
+
+Just do one damn table first!
+First up is doing the 5 minute moving average table
+
+	large_table = TimedAsset.all
+
+	while large_table.count >= 5
+		new_table = large_table.shift(5)
+		large_5min_table.save(average(new_table, 5))
+	end
+
+
+TimeZone difference: move everything four hours back.
+
+Postgresql, DB workers expanded, AVG tables add
+
+The database was changed from SQLite3 to postgres due to postgres's ability of handling concurrent reads and writes, resulting in a significant performance boost. All data was migrated over to the new psotgresql database.
+
+New tables to accommodate averages for every thirty minutes, two hours, and six hours, with associated changes in DB nuking and workers for said tables.
+
+New workers introduced such as a 30 minute averaging worker, 2 hours averaging worker, a 6 hour averaging worker, a worker used to clean the DB, and a worker to fill all of the averaging tables.
+
+A new method (database) in the static pages viewer to display a quick overlook of the average databases.
+
+Aesthetic changes in the homepage such as a quick overview of current cryptocurrency assets being much easier to read and the bar graph displaying over six hour intervals instead of five minute intervals. PPC alt currency was removed in favor of XPM currency for display in the bar graph.

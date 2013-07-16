@@ -1,0 +1,330 @@
+<br>
+<div class="row full-width" style="margin-left: 20px">
+  <div class="large-2 columns">
+  <br><br><br>
+    5 Minute assets: <%= FiveminuteTimedAsset.count %> items <br> <br>
+    30 Minute assets: <%= ThirtyminuteTimedAsset.count %> items <br> <br>
+    2 hours assets: <%= TwohoursTimedAsset.count %> items <br> <br>
+    6 hours assets: <%= SixhoursTimedAsset.count %> items
+  </div>
+
+  <div class="large-10 columns">
+
+    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">1 Minute assets</h3>
+      <thead>
+        <tr>
+          <th>Btc</th>
+          <th>Ltc</th>
+          <th>Ppc</th>
+          <th>Nmc</th>
+          <th>Xpm</th>
+          <th>Asicminer</th>
+          <th>Asicminer small</th>
+          <th>Advanced mining corp</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% TimedAsset.first(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center">..............</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% TimedAsset.last(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">5 Minute assets</h3>
+      <thead>
+        <tr>
+          <th>Btc</th>
+          <th>Ltc</th>
+          <th>Ppc</th>
+          <th>Nmc</th>
+          <th>Xpm</th>
+          <th>Asicminer</th>
+          <th>Asicminer small</th>
+          <th>Advanced mining corp</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% FiveminuteTimedAsset.first(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center">..............</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% FiveminuteTimedAsset.last(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">30 Minute assets</h2>
+      <thead>
+        <tr>
+          <th>Btc</th>
+          <th>Ltc</th>
+          <th>Ppc</th>
+          <th>Nmc</th>
+          <th>Xpm</th>
+          <th>Asicminer</th>
+          <th>Asicminer small</th>
+          <th>Advanced mining corp</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% ThirtyminuteTimedAsset.first(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center">..............</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% ThirtyminuteTimedAsset.last(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">2 hours assets</h2>
+      <thead>
+        <tr>
+          <th>Btc</th>
+          <th>Ltc</th>
+          <th>Ppc</th>
+          <th>Nmc</th>
+          <th>Xpm</th>
+          <th>Asicminer</th>
+          <th>Asicminer small</th>
+          <th>Advanced mining corp</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+        </tr>
+      </thead>
+
+        <% TwohoursTimedAsset.first(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center">..............</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% TwohoursTimedAsset.last(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">6 hours assets</h2>
+      <thead>
+        <tr>
+          <th>Btc</th>
+          <th>Ltc</th>
+          <th>Ppc</th>
+          <th>Nmc</th>
+          <th>Xpm</th>
+          <th>Asicminer</th>
+          <th>Asicminer small</th>
+          <th>Advanced mining corp</th>
+          <th>Comment</th>
+          <th>Time changed</th>
+        </tr>
+      </thead>
+
+        <% SixhoursTimedAsset.first(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center">..............</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% SixhoursTimedAsset.last(4).each do |timed_asset| %>
+          <tr>
+            <td><%= timed_asset.BTC %></td>
+            <td><%= timed_asset.LTC %></td>
+            <td><%= timed_asset.PPC %></td>
+            <td><%= timed_asset.NMC %></td>
+            <td><%= timed_asset.XPM %></td>
+            <td><%= timed_asset.AsicMiner %></td>
+            <td><%= timed_asset.AsicMiner_small %></td>
+            <td><%= timed_asset.Advanced_Mining_Corp %></td>
+            <td><%= timed_asset.comment %></td>
+            <td><%= timed_asset.time_changed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

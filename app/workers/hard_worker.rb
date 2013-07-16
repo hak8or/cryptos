@@ -2,7 +2,7 @@ class HardWorker
 	include Sidekiq::Worker
 	require 'net/http'
 
-	def perform()
+	def perform
 		i = 0
 		while i != 1
 			puts "1 minute asset fetch V06    " + Time.now.to_s + "  Row: " + TimedAsset.count.to_s

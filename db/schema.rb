@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130714090217) do
+ActiveRecord::Schema.define(version: 20130716102725) do
 
   create_table "fiveminute_timed_assets", force: true do |t|
     t.float    "BTC"
@@ -31,7 +31,61 @@ ActiveRecord::Schema.define(version: 20130714090217) do
     t.datetime "updated_at"
   end
 
+  create_table "sixhours_timed_assets", force: true do |t|
+    t.float    "BTC"
+    t.float    "LTC"
+    t.float    "PPC"
+    t.float    "NMC"
+    t.float    "XPM"
+    t.float    "AsicMiner"
+    t.float    "AsicMiner_small"
+    t.float    "Advanced_Mining_Corp"
+    t.float    "misc1"
+    t.float    "misc2"
+    t.float    "misc3"
+    t.text     "comment"
+    t.datetime "time_changed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "thirtyminute_timed_assets", force: true do |t|
+    t.float    "BTC"
+    t.float    "LTC"
+    t.float    "PPC"
+    t.float    "NMC"
+    t.float    "XPM"
+    t.float    "AsicMiner"
+    t.float    "AsicMiner_small"
+    t.float    "Advanced_Mining_Corp"
+    t.float    "misc1"
+    t.float    "misc2"
+    t.float    "misc3"
+    t.text     "comment"
+    t.datetime "time_changed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "timed_assets", force: true do |t|
+    t.float    "BTC"
+    t.float    "LTC"
+    t.float    "PPC"
+    t.float    "NMC"
+    t.float    "XPM"
+    t.float    "AsicMiner"
+    t.float    "AsicMiner_small"
+    t.float    "Advanced_Mining_Corp"
+    t.float    "misc1"
+    t.float    "misc2"
+    t.float    "misc3"
+    t.text     "comment"
+    t.datetime "time_changed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "twohours_timed_assets", force: true do |t|
     t.float    "BTC"
     t.float    "LTC"
     t.float    "PPC"

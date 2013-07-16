@@ -1,42 +1,46 @@
 class AverageOldAssets
 	include Sidekiq::Worker
+	sidekiq_options :retry => false
 
 	# Meant to be run only when the workers fail and I need to nuke the new databases due to invalid data or whatever,
 	# NOT for running as a worker all the time like the AverageAssets class.
-	def perform
+	def perform(minutes = 5)
 		large_table = TimedAsset.all
-		minutes = 30
 
 		# Go through the large table and keep averaging and saving while dropping 
 		# averaged rows. Once the large table has less than 5 remaining rows, it 
 		# means the table has been averaged, so exit the while loop.
-		while large_table.count >= minutes
-			puts minutes.to_s + " minutes averaging starting: " + Time.now.to_s
-
+		until large_table.count < minutes do
 			new_table = large_table.shift(minutes)
-			temp_table = average(new_table, minutes)
+
+			if new_table.last.nil?
+				break
+			end
+
+			puts minutes.to_s + " minutes averaging starting: " + new_table.last.time_changed.to_s
 
 			case minutes
 				when 5
-					row = FiveminuteTimedAsset.new(temp_table)
+					row = FiveminuteTimedAsset.new(average(new_table, minutes))
 				when 30
-					row = ThirtyminuteTimedAsset.new(temp_table)
+					row = ThirtyminuteTimedAsset.new(average(new_table, minutes))
 				when 120
-					row = TwohoursTimedAsset.new(temp_table)
+					row = TwohoursTimedAsset.new(average(new_table, minutes))
 				when 360
-					row = SixhoursTimedAsset.new(temp_table)
+					row = SixhoursTimedAsset.new(average(new_table, minutes))
 			end # end case
 
-			another_row.save
+			# Using new and then save instead of create since sidekiq does not seem 
+			# to like create. I haven't got a faintest clue why.
+			row.save
 		end
+
+		puts "Done generating averages"
 	end
 
 	private
 
-	# Input - table
-	# Generates the averages for the table. The minutes for each table are hardcoded into the function. Fetches data from
-	# the main data table known as TimedAssets and makes a moving average for it with newfound averages sent to the 
-	# associated table. 
+	# Generates the averages for the table.
 	def average(table, minutes)
 		avg_BTC = 0
 		avg_LTC = 0
@@ -70,7 +74,7 @@ class AverageOldAssets
 			:misc1 => 0,
 			:misc2 => 0,
 			:misc3 => 0,
-			:comment => "First Post!",
+			:comment => "Average Old Assets did this",
 			:time_changed => table.last.time_changed
 		}
 		
@@ -78,4 +82,3 @@ class AverageOldAssets
 	end # End average table function
 
 end # End average_old_assets class
-

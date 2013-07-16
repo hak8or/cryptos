@@ -3,9 +3,6 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -63,3 +60,10 @@ group :development do
 	gem "binding_of_caller"
 	gem "better_errors"
 end
+
+# sqlite3 does not handle concurrent reads and writes well, postresql it is!
+gem 'pg'
+
+# TEMPORARY HERE!!! DELETE AFTER MIGRATING DB FROM SQLITE3 TO POSTGRESQL
+# https://github.com/ricardochimal/taps/issues/128
+# gem 'taps', :git => 'git://github.com/ricardochimal/taps.git'

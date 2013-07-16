@@ -2,13 +2,15 @@
 
 <div class="row full-width" style="margin-left: 20px">
   <div class="large-1 columns">
-    <%= button_to "enable logging", :action => "start_log" %>
+    <br><br><br><br>
+    <%= button_to "Beging Logging", :action => "start_log" %>
+    <%= button_to "Fill Averaging Tables", :action => "do_old_assets_averaging" %>
+    <%= button_to "Nuke Averaging Tables", :action => "NUKE_Averages" %>
   </div>
 
   <div class="large-11 columns">
-
     <div style="margin-left:90%">
-      <%= button_to "NUKE", :action => "NUKE" %>
+      <%= button_to "NUKE Users Table", :action => "NUKE" %>
     </div>
     
 

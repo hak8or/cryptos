@@ -4,7 +4,7 @@ class FiveminuteTimedAssetsController < ApplicationController
   # GET /fiveminute_timed_assets
   # GET /fiveminute_timed_assets.json
   def index
-    @fiveminute_timed_assets = FiveminuteTimedAsset.all
+    @fiveminute_timed_assets = FiveminuteTimedAsset.last(900)
   end
 
   # GET /fiveminute_timed_assets/1

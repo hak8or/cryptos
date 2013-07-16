@@ -31,7 +31,7 @@
 </div>
 
 <script>
-function get_BTC_prices() {
+	function get_BTC_prices() {
 		var my_data = [];
 
 		<% @assets.last(500).each_with_index do |asset, index| %>
@@ -55,11 +55,11 @@ function get_BTC_prices() {
 	  chart.x(function(d,i) { return i })
 
 	  chart.xAxis
-      .tickFormat(function(p) {
-        return d3.time.format('%M')(new Date(p))
-      });
+	  .tickFormat(function(p) {
+	    return d3.time.format('%M')(new Date(p))
+	  });
 
-      chart.yAxis.tickFormat(function(d) { return '$' + d3.format(',.2f')(d) });
+	  chart.yAxis.tickFormat(function(d) { return '$' + d3.format(',.2f')(d) });
 
 	  d3.select('#chart1 svg')
 	      //.datum([]) //for testing noData
@@ -78,55 +78,55 @@ function get_BTC_prices() {
 
 	// Wrapping in nv.addGraph allows for '0 timeout render', stores rendered charts in nv.graphs, and may do more in the future... it's NOT required
 	//==================================================CHART 2=====================================================
-	//==================================================CHART 2=====================================================
-	//==================================================CHART 2=====================================================
-	//==================================================CHART 2=====================================================
 	var chart2;
-	<% amount_of_items = 30 %>
 	<% user_info = UserInfo.last %>
+	<% amount_of_items = 40 %>
+	<% timed_assets = TwohoursTimedAsset.last(amount_of_items) %>
 	
 	function my_data_function() {
-		var LTC_and_PPC_worth_in_USD = [];
-		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
-			LTC_and_PPC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+		var LTC_and_XPM_worth_in_USD = [];
+		<% timed_assets.each_with_index do |asset, index| %>
+			LTC_and_XPM_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%A %I:%M%p") %>', 
 									   y: <%= (user_info.LTC * asset.LTC * asset.BTC) + 
-								   		  	  (user_info.PPC * asset.PPC * asset.BTC) %>})
+								   		  	  (user_info.XPM * asset.XPM * asset.BTC) %>})
 		<% end %>
 
 		var BTC_worth_in_USD = [];
-		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
-			BTC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', y: <%= user_info.BTC * asset.BTC %>})
+		<% timed_assets.each_with_index do |asset, index| %>
+			BTC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%A %I:%M%p") %>', y: <%= user_info.BTC * asset.BTC %>})
 		<% end %>
 
 		var AMC_worth_in_USD = [];
-		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
-			AMC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+		<% timed_assets.each_with_index do |asset, index| %>
+			AMC_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%A %I:%M%p") %>', 
 								   y: <%= user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp * asset.BTC %>})
 		<% end %>
 
 		var AsicMiner_worth_in_USD = [];
-		<% FiveminuteTimedAsset.last(amount_of_items).each_with_index do |asset, index| %>
-			AsicMiner_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%I:%M%p") %>', 
+		<% timed_assets.each_with_index do |asset, index| %>
+			AsicMiner_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%A %I:%M%p") %>', 
 								   y: <%= (user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
 								   		  (user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC) %>})
 		<% end %>
 
-		return [{
-			values: LTC_and_PPC_worth_in_USD,
-			key: "LTC PPC"
-		},
-		{
-			values: BTC_worth_in_USD,
-			key: "BTC"
-		},
-		{
-			values: AMC_worth_in_USD,
-			key: "AMC"
-		},
-		{
-			values: AsicMiner_worth_in_USD,
-			key: "AsicMiner"
-		}];
+		return [
+			{
+				values: LTC_and_XPM_worth_in_USD,
+				key: "LTC & XPM"
+			},
+			{
+				values: BTC_worth_in_USD,
+				key: "BTC"
+			},
+			{
+				values: AMC_worth_in_USD,
+				key: "AMC"
+			},
+			{
+				values: AsicMiner_worth_in_USD,
+				key: "AsicMiner"
+			}
+		];
 	}
 
 	nv.addGraph({

@@ -10,9 +10,12 @@ Cryptos::Application.routes.draw do
 
   post 'NUKE', to: 'user_infos#NUKE'
   post 'start_log', to: 'user_infos#start_log'
+  post 'do_old_assets_averaging', to: 'user_infos#do_old_assets_averaging'
+  post 'NUKE_Averages', to: 'user_infos#NUKE_Averages'
 
-  get "staticpages/homepage"
-  get "staticpages/about"
+  get "/homepage", to: 'staticpages#homepage'
+  get "/about", to: 'staticpages#about'
+  get "/database", to: 'staticpages#database'
   root 'staticpages#homepage'
 
   # The priority is based upon order of creation: first created -> highest priority.
