@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"ea",
+				"eav	each_value { |val| .. }"
+			],
+			[
+				"tim",
+				"time_changed"
+			],
+			[
+				"new",
+				"new_table"
+			],
+			[
+				"ti",
+				"time_changed"
+			],
+			[
+				"large",
+				"large_table"
+			],
+			[
+				"timed",
+				"timed_assets"
+			],
+			[
+				"eac",
+				"eac-	each_char { |chr| .. }"
+			],
+			[
+				"min",
+				"minutes"
+			],
+			[
+				"Ad",
+				"Advanced_Mining_Corp"
+			],
+			[
+				"Asic",
+				"AsicMiner_small"
+			],
+			[
+				"sin",
+				"single_timed_asset"
+			],
+			[
 				"do",
 				"dob	Insert do |variable| … end"
 			],
@@ -88,10 +132,6 @@
 				"params"
 			],
 			[
-				"new",
-				"newitem"
-			],
-			[
 				"nam",
 				"name"
 			],
@@ -144,39 +184,11 @@
 	"buffers":
 	[
 		{
-			"file": "app/views/layouts/application.html.erb",
-			"settings":
-			{
-				"buffer_size": 1005,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/views/staticpages/homepage.html.erb",
 			"settings":
 			{
-				"buffer_size": 4481,
+				"buffer_size": 4903,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/staticpages_controller.rb",
-			"settings":
-			{
-				"buffer_size": 2198,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "class HardWorker\n	include Sidekiq::Worker\n	require 'net/http'\n\n	def perform(name, count)\n		i = 0\n		while i != 1\n			puts \"1 minute sleep\"\n			sleep 60\n\n			puts \"1 minute asset fetch V05  \" + Time.now.to_s + \"  Row: \" + TimedAsset.count.to_s\n\n			another_row = TimedAsset.new(\n				:BTC => MTGOX_USD(\"BTC\"),\n				:LTC => BTC_E(\"LTC\"),\n				:PPC => BTC_E(\"PPC\"),\n				:NMC => BTC_E(\"NMC\"),\n				:XPM => 0.004,\n				:AsicMiner => BTCT_BTC(\"ASICMINER-PT\"),\n				:AsicMiner_small => BTCT_BTC(\"TAT.ASICMINER\"),\n				:Advanced_Mining_Corp => BTCT_BTC(\"AMC-PT\"),\n				:misc1 => 0,\n				:misc2 => 0,\n				:misc3 => 0,\n				:comment => \"HardWorker did this\",\n				:time_changed => Time.now\n			)\n			another_row.save\n\n			puts 'Done with hard work!'\n		end\n	end\n\n	def 5_minute_assets(count)\n		i = 0\n		while i != 0\n			puts \"5 minute sleep\"\n			sleep 300\n			puts \"5 minute averaging starting: \" + Time.now\n\n			5.times do |i|\n				\n			end\n\n		end\n	end\n\n	def BTCT_BTC(asset)\n		url = \"https://btct.co/api/ticker/\" + asset.to_s\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['last_price']\n	end\n\n	def BTC_E_USD(cryptocurrency)\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"https://btc-e.com/api/2/btc_usd/ticker\"\n			when \"LTC\" then\n				\"https://btc-e.com/api/2/ltc_usd/ticker\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['ticker']['last']\n	end\n\n	def BTC_E(cryptocurrency)\n		sleep 0.1\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"https://btc-e.com/api/2/btc_usd/ticker\"\n			else\n				\"https://btc-e.com/api/2/\" + cryptocurrency.downcase + \"_btc/ticker\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['ticker']['last']\n	end\n\n	# No need for the case since MTGOX currently only has BTC.\n	def MTGOX_USD(cryptocurrency)\n		url = case cryptocurrency\n			when \"BTC\" then\n				\"http://data.mtgox.com/api/2/BTCUSD/money/ticker_fast?pretty\"\n		end\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n		return result['data']['last']['value']\n	end\n\n	def havlock_BTC(asset)\n		url = \"https://www.havelockinvestments.com/r/ticker\"\n\n		response = Net::HTTP.get_response(URI.parse(url))\n		data = response.body\n		result = ActiveSupport::JSON.decode(data)\n\n		return result[asset.upcase]['last']\n	end\nend",
-			"file": "app/workers/hard_worker.rb",
-			"file_size": 2555,
-			"file_write_time": 130181989252550253,
-			"settings":
-			{
-				"buffer_size": 2498,
-				"line_ending": "Windows",
-				"name": "class Hardworker"
 			}
 		}
 	],
@@ -209,20 +221,39 @@
 	},
 	"file_history":
 	[
-		"//UBUNTU/hak8or/cryptos/app/controllers/user_infos_controller.rb",
-		"//UBUNTU/hak8or/cryptos/app/views/timed_assets/index.html.erb",
-		"//UBUNTU/hak8or/cryptos/Gemfile",
-		"//UBUNTU/hak8or/cryptos/app/views/layouts/application.html.erb",
-		"//UBUNTU/hak8or/cryptos/db/schema.rb",
-		"//UBUNTU/hak8or/cryptos/app/controllers/application_controller.rb",
-		"//UBUNTU/hak8or/cryptos/app/views/user_infos/index.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/workers/clean_averages_db.rb",
+		"//UBUNTU/hak8or/cryptos/app/workers/clean_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/app/workers/hard_worker.rb",
 		"//UBUNTU/hak8or/cryptos/config/routes.rb",
+		"//UBUNTU/hak8or/cryptos/app/views/staticpages/database.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/staticpages_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/views/staticpages/homepage.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/models/twohours_timed_asset.rb",
+		"//UBUNTU/hak8or/cryptos/Gemfile",
+		"//UBUNTU/hak8or/cryptos/config/database.yml",
+		"//UBUNTU/hak8or/cryptos/app/views/user_infos/index.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/user_infos_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/models/twohours_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/app/models/sixhours_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/app/models/thirtyminute_timed_asset.rb",
+		"//UBUNTU/hak8or/cryptos/db/migrate/20130716102725_create_sixhours_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/db/migrate/20130716102647_create_twohours_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/db/migrate/20130716102448_create_thirtyminute_timed_assets.rb",
+		"//UBUNTU/hak8or/cryptos/config/application.rb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/application_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/fiveminute_timed_assets_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/controllers/timed_assets_controller.rb",
+		"//UBUNTU/hak8or/cryptos/app/NOTES.txt",
+		"//UBUNTU/hak8or/cryptos/readme.md",
+		"//UBUNTU/hak8or/cryptos/GPL.txt",
+		"//UBUNTU/hak8or/cryptos/app/views/layouts/application.html.erb",
+		"//UBUNTU/hak8or/cryptos/app/views/timed_assets/index.html.erb",
+		"//UBUNTU/hak8or/cryptos/db/schema.rb",
 		"//UBUNTU/hak8or/cryptos/config/environments/development.rb",
 		"//UBUNTU/hak8or/cryptos/app/views/user_infos/new.html.erb",
 		"//UBUNTU/hak8or/cryptos/app/views/user_infos/_form.html.erb",
 		"//UBUNTU/hak8or/cryptos/app/assets/stylesheets/staticpages.css.scss",
 		"//UBUNTU/hak8or/cryptos/app/assets/stylesheets/application.css",
-		"//UBUNTU/hak8or/cryptos/app/views/staticpages/homepage.html.erb",
 		"//UBUNTU/hak8or/hello/config/routes.rb",
 		"//UBUNTU/hak8or/hello/app/controllers/items_controller.rb",
 		"//UBUNTU/hak8or/hello/app/models/staticpages.rb",
@@ -277,6 +308,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"blog",
+			"blog_development",
+			"blurp",
+			"five",
+			"5",
+			"single_record",
+			"user_info",
 			"LTC_worth_in_USD",
 			"sample",
 			"stream",
@@ -320,117 +358,33 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/views/layouts/application.html.erb",
-					"semi_transient": false,
+					"file": "app/views/staticpages/homepage.html.erb",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 1005,
+						"buffer_size": 4903,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								561,
-								561
+								424,
+								424
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/views/staticpages/homepage.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4481,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4387,
-								4387
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1254.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/controllers/staticpages_controller.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2198,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								467,
-								467
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/workers/hard_worker.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2498,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								896,
-								896
-							]
-						],
-						"settings":
-						{
-							"auto_name": "class Hardworker",
-							"spell_check": false,
-							"syntax": "Packages/Ruby/Ruby.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 594.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -506,7 +460,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 184.0,
+	"side_bar_width": 203.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

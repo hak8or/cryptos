@@ -17,31 +17,29 @@ class AverageOldAssets
 				break
 			end
 
-			puts minutes.to_s + " minutes averaging starting: " + new_table.last.time_changed.to_s
+			puts minutes.to_s + " minutes     " + new_table.last.time_changed.to_s
 
 			case minutes
 				when 5
-					row = FiveminuteTimedAsset.new(average(new_table, minutes))
+					row = FiveminuteTimedAsset.new( average(new_table) )
 				when 30
-					row = ThirtyminuteTimedAsset.new(average(new_table, minutes))
+					row = ThirtyminuteTimedAsset.new( average(new_table) )
 				when 120
-					row = TwohoursTimedAsset.new(average(new_table, minutes))
+					row = TwohoursTimedAsset.new( average(new_table) )
 				when 360
-					row = SixhoursTimedAsset.new(average(new_table, minutes))
+					row = SixhoursTimedAsset.new( average(new_table) )
 			end # end case
 
 			# Using new and then save instead of create since sidekiq does not seem 
 			# to like create. I haven't got a faintest clue why.
 			row.save
 		end
-
-		puts "Done generating averages"
 	end
 
 	private
 
 	# Generates the averages for the table.
-	def average(table, minutes)
+	def average(table)
 		avg_BTC = 0
 		avg_LTC = 0
 		avg_PPC = 0
@@ -63,14 +61,14 @@ class AverageOldAssets
 		}
 
 		row = {
-			:BTC => (avg_BTC / minutes).round(6),
-			:LTC => (avg_LTC / minutes).round(6),
-			:PPC => (avg_PPC / minutes).round(6),
-			:NMC => (avg_NMC / minutes).round(6),
-			:XPM => (avg_XPM / minutes).round(6),
-			:AsicMiner => (avg_AsicMiner / minutes).round(6),
-			:AsicMiner_small => (avg_AsicMiner_small / minutes).round(6),
-			:Advanced_Mining_Corp => (avg_Advanced_Mining_Corp / minutes).round(6),
+			:BTC => (avg_BTC / table.count).round(6),
+			:LTC => (avg_LTC / table.count).round(6),
+			:PPC => (avg_PPC / table.count).round(6),
+			:NMC => (avg_NMC / table.count).round(6),
+			:XPM => (avg_XPM / table.count).round(6),
+			:AsicMiner => (avg_AsicMiner / table.count).round(6),
+			:AsicMiner_small => (avg_AsicMiner_small / table.count).round(6),
+			:Advanced_Mining_Corp => (avg_Advanced_Mining_Corp / table.count).round(6),
 			:misc1 => 0,
 			:misc2 => 0,
 			:misc3 => 0,
