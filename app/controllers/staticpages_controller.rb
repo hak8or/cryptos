@@ -14,6 +14,40 @@ class StaticpagesController < ApplicationController
   def about
   end
 
+  def start_log
+    HardWorker.perform_async
+    AverageAssets.perform_async(5)
+    AverageAssets.perform_async(30)
+    AverageAssets.perform_async(120)
+    AverageAssets.perform_async(360)
+
+    respond_to do |format|
+      format.html { redirect_to "/database" }
+      format.json { head :no_content }
+    end
+  end
+
+  def do_old_assets_averaging
+    AverageOldAssets.perform_async(5)
+    AverageOldAssets.perform_async(30)
+    AverageOldAssets.perform_async(120)
+    AverageOldAssets.perform_async(360)
+
+    respond_to do |format|
+      format.html { redirect_to "/database" }
+      format.json { head :no_content }
+    end
+  end
+
+  def NUKE_Averages
+    CleanAveragesDB.perform_async
+
+    respond_to do |format|
+      format.html { redirect_to "/database" }
+      format.json { head :no_content }
+    end
+  end
+
   #======================================= PRIVATE =======================================
   private
 

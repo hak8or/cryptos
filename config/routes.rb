@@ -9,9 +9,9 @@ Cryptos::Application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
 
   post 'NUKE', to: 'user_infos#NUKE'
-  post 'start_log', to: 'user_infos#start_log'
-  post 'do_old_assets_averaging', to: 'user_infos#do_old_assets_averaging'
-  post 'NUKE_Averages', to: 'user_infos#NUKE_Averages'
+  post 'start_log', to: 'staticpages#start_log'
+  post 'do_old_assets_averaging', to: 'staticpages#do_old_assets_averaging'
+  post 'NUKE_Averages', to: 'staticpages#NUKE_Averages'
 
   get "/homepage", to: 'staticpages#homepage'
   get "/about", to: 'staticpages#about'
