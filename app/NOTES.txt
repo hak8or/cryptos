@@ -1,17 +1,16 @@
 ------------------ NOTES ------- NOTES ------- NOTES ------------------
 Todo: 
 		==== DB ====
-	- Fetch XPM from vircurex
 	- Clean up API functions for BTC-E
 	- Combine averaging over time workers into one worker
-Now	- Buttons must look better on database page
-Now	- Move DB Clean, DB reset, Start logging buttons to DB page
 	- Find a resource which contains old data (Vircurex maybe, cryptocharts?)
 	- Take into account asset quantity changes over time per user
 	- Table reset, cleanup and logging initiation all one click.
 	- Fetch amounts of assets on each website for a user (no need for manual)
 	- Starting up logging only writes if time passed from last write is correct.
-	- When Nuking and Averaging tables, show state on website
+	- When Nuking and Averaging tables, show status on website
+	- Clean up IRB in database page
+	- Fill in gaps for 1 minute assets table by averaging surrounding rows
 
 		==== Homepage ====
 	- Homepage on left needs to be more easy to read (Total USD clearer)

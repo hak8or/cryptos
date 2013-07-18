@@ -12,7 +12,7 @@ class HardWorker
 				:LTC => BTC_E("LTC"),
 				:PPC => BTC_E("PPC"),
 				:NMC => BTC_E("NMC"),
-				:XPM => 0.004,
+				:XPM => Vircurex("XPM"),
 				:AsicMiner => BTCT_BTC("ASICMINER-PT"),
 				:AsicMiner_small => BTCT_BTC("TAT.ASICMINER"),
 				:Advanced_Mining_Corp => BTCT_BTC("AMC-PT"),
@@ -28,14 +28,30 @@ class HardWorker
 		end
 	end
 
+	private
+
+	# Returns the how much BTC one unit of cryptocurrency is worth.
+	def Vircurex(cryptocurrency)
+		url = "https://vircurex.com/api/get_last_trade.json?base=" + 
+			cryptocurrency.to_s + "&alt=BTC"
+			
+		response = Net::HTTP.get_response(URI.parse(url))
+		data = response.body
+		result = ActiveSupport::JSON.decode(data)
+		return result['value']
+	end
+
+	# Returns the how much BTC one unit of asset is worth.
 	def BTCT_BTC(asset)
 		url = "https://btct.co/api/ticker/" + asset.to_s
+
 		response = Net::HTTP.get_response(URI.parse(url))
 		data = response.body
 		result = ActiveSupport::JSON.decode(data)
 		return result['last_price']
 	end
 
+	# Returns the how much USD one unit of cryptocurrency is worth.
 	def BTC_E_USD(cryptocurrency)
 		url = case cryptocurrency
 			when "BTC" then
@@ -50,6 +66,7 @@ class HardWorker
 		return result['ticker']['last']
 	end
 
+	# Returns the how much BTC one unit of cryptocurrency is worth.
 	def BTC_E(cryptocurrency)
 		sleep 0.1
 		url = case cryptocurrency
@@ -65,6 +82,7 @@ class HardWorker
 		return result['ticker']['last']
 	end
 
+	# Returns the how much USD one unit of cryptocurrency is worth.
 	# No need for the case since MTGOX currently only has BTC.
 	def MTGOX_USD(cryptocurrency)
 		url = case cryptocurrency
@@ -78,6 +96,7 @@ class HardWorker
 		return result['data']['last']['value']
 	end
 
+	# Returns the how much BTC one unit of asset is worth.
 	def havlock_BTC(asset)
 		url = "https://www.havelockinvestments.com/r/ticker"
 
