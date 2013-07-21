@@ -21,7 +21,20 @@ class AverageAssets
 
 			another_row.save
 
-			sleep minutes * 60
+			amnt_seconds = minutes * 60
+
+			# If there was a message to all stating shutdown, close this process.
+			amnt_seconds.times do
+				sleep 1
+
+				message = Messages.find_by target: "ALL"
+				next if message.nil?
+
+				if message.body == "SHUTDOWN"
+					return
+				end
+			end
+
 		end # End case
 	end # End preform method
 

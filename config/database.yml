@@ -4,7 +4,9 @@ development:
   adapter: postgresql
   encoding: unicode
   database: cryptosdb
-  pool: 15
+  pool: 20
+  checkout_timeout: 10
+  dead_connection_timeout: 10
   username: cryptos
   password: pass1
   host: localhost
@@ -16,7 +18,9 @@ test:
   adapter: postgresql
   encoding: unicode
   database: cryptosdb
-  pool: 15
+  pool: 20
+  checkout_timeout: 10
+  dead_connection_timeout: 10
   username: cryptos
   password: pass1
   host: localhost
@@ -25,7 +29,9 @@ production:
   adapter: postgresql
   encoding: unicode
   database: cryptosdb
-  pool: 15
+  pool: 20
+  checkout_timeout: 10
+  dead_connection_timeout: 10
   username: cryptos
   password: pass1
   host: localhost

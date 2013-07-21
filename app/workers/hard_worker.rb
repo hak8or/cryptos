@@ -24,7 +24,19 @@ class HardWorker
 			)
 			another_row.save
 			
-			sleep 60
+			# Check once a second for worker messages.
+			amnt_seconds = 60
+
+			# If there was a message to all stating shutdown, close this process.
+			amnt_seconds.times do
+				sleep 1
+
+				message = Messages.find_by target: "ALL"
+				next if message.nil?
+				if message[:body] == "SHUTDOWN"
+					return
+				end
+			end
 		end
 	end
 

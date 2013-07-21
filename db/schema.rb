@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130716102725) do
+ActiveRecord::Schema.define(version: 20130720165622) do
 
   create_table "fiveminute_timed_assets", force: true do |t|
     t.float    "BTC"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20130716102725) do
     t.float    "misc3"
     t.text     "comment"
     t.datetime "time_changed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", force: true do |t|
+    t.string   "target"
+    t.text     "body"
+    t.text     "misc"
+    t.string   "from"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

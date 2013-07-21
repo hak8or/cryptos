@@ -7,7 +7,11 @@
     2 hours assets: <%= TwohoursTimedAsset.count %> items <br>
     6 hours assets: <%= SixhoursTimedAsset.count %> items
 
-    <p style="padding-top:20px">Empties the tables keeping the averages for all past data.</p>
+    <p style="padding-top:40px">Resets the averages DB's and initiates fetching.</p>
+    <%= button_to "Setup", {:action => "Setup"}, 
+        {class: "button secondary large", style: "margin-left:40px"} %>
+
+    <p style="padding-top:10px">Empties the tables keeping the averages for all past data.</p>
     <%= button_to "Nuke average tables", {:action => "NUKE_Averages"}, 
         {class: "button small secondary", style: "margin-left:40px"} %>
 
@@ -20,6 +24,22 @@
     minutes.</p>
     <%= button_to "Beging Logging", {:action => "start_log"}, 
         {class: "button small secondary", style: "margin-left:40px"} %>
+
+    ========================== <br>
+
+  <% workers = Sidekiq::Workers.new %>
+  Current running workers via queue:  <%= workers.size %> <br>
+  <% Sidekiq.redis do |conn| %>
+    Current running workers via redis:  <%= conn.smembers('workers').count %> <br>
+  <% end %>
+  <% workers.each do |worker, msg| %>
+    <% worker_data = msg['payload']['class'].to_s + msg['payload']['args'].to_s %> 
+    <%= worker_data %> <br>
+    <% # sidekiq/blob/master/web/views/_workers.slim for worker data
+       # worker is the unique ID per worker
+       # msg['payload']['class'] is the class of the worker
+       # msg['payload']['args'] are what arguments were sent to each worker %>
+  <% end %>
 
   </div>
 

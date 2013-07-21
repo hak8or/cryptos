@@ -48,6 +48,15 @@ class StaticpagesController < ApplicationController
     end
   end
 
+  def Setup
+    Setup.perform_async
+
+    respond_to do |format|
+      format.html { redirect_to "/database" }
+      format.json { head :no_content }
+    end
+  end
+
   #======================================= PRIVATE =======================================
   private
 
@@ -55,62 +64,15 @@ class StaticpagesController < ApplicationController
   	user_info = UserInfo.last
   	
   	btc_asset_amount = user_info.BTC + 
-  					(user_info.LTC * @assets.last.LTC) + 
-  					(user_info.PPC * @assets.last.PPC) +
-  					(user_info.NMC * @assets.last.NMC) +
-					(user_info.XPM * @assets.last.XPM) +
-					(user_info.AsicMiner * @assets.last.AsicMiner) +
-					(user_info.AsicMiner_small * @assets.last.AsicMiner_small) +
-					(user_info.Advanced_Mining_Corp * @assets.last.Advanced_Mining_Corp)
+			(user_info.LTC * @assets.last.LTC) + 
+			(user_info.PPC * @assets.last.PPC) +
+			(user_info.NMC * @assets.last.NMC) +
+			(user_info.XPM * @assets.last.XPM) +
+			(user_info.AsicMiner * @assets.last.AsicMiner) +
+			(user_info.AsicMiner_small * @assets.last.AsicMiner_small) +
+			(user_info.Advanced_Mining_Corp * @assets.last.Advanced_Mining_Corp)
 
   	return btc_asset_amount
   end
 
-  def BTCT_BTC(asset)
-  	url = "https://btct.co/api/ticker/" + asset.to_s
-  	response = Net::HTTP.get_response(URI.parse(url))
-    data = response.body
-    result = ActiveSupport::JSON.decode(data)
-    return result['last_price']
-  end
-
-  def BTC_E_USD(cryptocurrency)
-	url = case cryptocurrency
-		when "BTC" then
-			"https://btc-e.com/api/2/btc_usd/ticker"
-		when "LTC" then
-			"https://btc-e.com/api/2/ltc_usd/ticker"
-		end
-
-  	response = Net::HTTP.get_response(URI.parse(url))
-    data = response.body
-    result = ActiveSupport::JSON.decode(data)
-    return result['ticker']['last']
-  end
-
-  def MTGOX_USD(cryptocurrency)
-	url = case cryptocurrency
-		when "BTC" then
-			"http://data.mtgox.com/api/2/BTCUSD/money/ticker_fast?pretty"
-		end
-
-  	response = Net::HTTP.get_response(URI.parse(url))
-    data = response.body
-    result = ActiveSupport::JSON.decode(data)
-    return result['data']['last']['value']
-  end
-
-  def BTC_E(cryptocurrency)
-		url = case cryptocurrency
-			when "BTC" then
-				"https://btc-e.com/api/2/btc_usd/ticker"
-			else
-				"https://btc-e.com/api/2/" + cryptocurrency.downcase + "_btc/ticker"
-		end
-
-		response = Net::HTTP.get_response(URI.parse(url))
-		data = response.body
-		result = ActiveSupport::JSON.decode(data)
-		return result['ticker']['last']
-	end
 end
