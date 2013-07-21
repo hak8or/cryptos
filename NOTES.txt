@@ -11,8 +11,6 @@ Todo:
 	- Remove 1 minute assets rows which are closer than 30 seconds.
 
 		==== DB Page ====
-NOW	- Table reset, cleanup and logging initiation all one click.
-		
 	- When Nuking and Averaging tables, show status on website (ajax and shiz)
 	- Clean up IRB in database page
 
@@ -35,6 +33,8 @@ NOW	- Table reset, cleanup and logging initiation all one click.
 	- Clean routes file
 	- Use the actual MVC design instead of just using controllers/views
 	- Slim for HTML pages?
+	- Move worker messeges over to redis?
+	- messeges moved to redis instead of postgres?
 
 --------------------------------------------------------------
 
@@ -48,16 +48,13 @@ Sidekiq makes me cry
 	- Needs to be able to stop/cancel workers which are *BUSY*!
 		Sidekiq::Queue.new.clear only clears enqueued workers, not busy workers.
 		Enqueueeueued is a horric word from the depths of hell. 
-		
+
 	- Sidekiq does not have ability to stop busy workers, even when working
 		directly with the redis server and canceling workers with the command
 		conn.srem('workers', workers). All other methods of deleting workers
 		just deletes workers in a queue, not the busy workers. Therefore, I
 		will make my own table for keeping messeges.
-
-
-
-
+		target | messege (stop_imediatly, stop, restart) | from
 
 
 ---- New stuff goes ontop, stop putting it at the bottom! ----
@@ -88,5 +85,3 @@ First up is doing the 5 minute moving average table
 		new_table = large_table.shift(5)
 		large_5min_table.save(average(new_table, 5))
 	end
-
-	

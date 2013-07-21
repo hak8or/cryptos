@@ -1,0 +1,24 @@
+<table style="margin-left:auto;margin-right:auto;">
+  <h3 class="subheader" style="margin-left:40%;">messages</h3>
+  <thead>
+    <tr>
+      <th>target</th>
+      <th>body</th>
+      <th>misc</th>
+      <th>from</th>
+      <th>created at</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Messages.first(50).each do |message| %>
+      <tr>
+        <td><%= message.target %></td>
+        <td><%= message.body %></td>
+        <td><%= message.misc %></td>
+        <td><%= message.from %></td>
+        <td><%= message.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
