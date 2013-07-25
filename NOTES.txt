@@ -1,7 +1,6 @@
 ------------------ NOTES ------- NOTES ------- NOTES ------------------
 Todo: 
 		==== DB ====
-	- Clean up API functions for BTC-E
 	- Combine averaging over time workers into one worker
 	- Find a resource which contains old data (Vircurex maybe, cryptocharts?)
 	- Take into account asset quantity changes over time per user
@@ -12,7 +11,6 @@ Todo:
 
 		==== DB Page ====
 	- When Nuking and Averaging tables, show status on website (ajax and shiz)
-	- Clean up IRB in database page
 
 		==== Homepage ====
 	- Homepage on left needs to be more easy to read (Total USD clearer)
@@ -37,6 +35,26 @@ Todo:
 	- messeges moved to redis instead of postgres?
 
 --------------------------------------------------------------
+
+SQLITE3 does not handle cuncurrent reads and writes well, making the average old assets method 
+	not work due to the method being very parallal (writes at same time). Postgresql handles this
+	without any issues, so I am using postgress now instead. Also, holy hell is it faster!
+
+	To setup postgress and migrate data. Read what is under this first though.
+	  http://railscasts.com/episodes/342-migrating-to-postgresql?view=asciicast
+
+	Install postgresql via apt-get. Don't bother with the GUI administrative since ubuntu server does
+	  not use GUI and interfacing to it over the network is a massive PITA.
+
+	to get postgres bundle working, do
+	   sudo apt-get install ruby-dev libpq-dev build-essential
+
+	For setting up postgres with rails
+	   http://stackoverflow.com/questions/9987171/rails-3-2-fatal-peer-authentication-failed-for-user-pgerror
+
+	   http://www.davidpashley.com/articles/postgresql-user-administration/ <-- fill out the DB info in rails
+	                                           ^^ Create user in postgres
+	   http://www.davidpashley.com/articles/postgresql-user-administration/ <-- Give user permission to user for createdb
 
 Sidekiq makes me cry
 	- Needs to be able to display worker classes and arguments through sidekiq API

@@ -9,9 +9,9 @@ class HardWorker
 
 			another_row = TimedAsset.new(
 				:BTC => MTGOX_USD("BTC"),
-				:LTC => BTC_E("LTC"),
-				:PPC => BTC_E("PPC"),
-				:NMC => BTC_E("NMC"),
+				:LTC => BTC_E_BTC("LTC"),
+				:PPC => BTC_E_BTC("PPC"),
+				:NMC => BTC_E_BTC("NMC"),
 				:XPM => Vircurex("XPM"),
 				:AsicMiner => BTCT_BTC("ASICMINER-PT"),
 				:AsicMiner_small => BTCT_BTC("TAT.ASICMINER"),
@@ -65,12 +65,8 @@ class HardWorker
 
 	# Returns the how much USD one unit of cryptocurrency is worth.
 	def BTC_E_USD(cryptocurrency)
-		url = case cryptocurrency
-			when "BTC" then
-				"https://btc-e.com/api/2/btc_usd/ticker"
-			when "LTC" then
-				"https://btc-e.com/api/2/ltc_usd/ticker"
-		end
+		sleep 0.3
+		url = "https://btc-e.com/api/2/" + cryptocurrency.downcase + "_usd/ticker"
 
 		response = Net::HTTP.get_response(URI.parse(url))
 		data = response.body
@@ -79,14 +75,9 @@ class HardWorker
 	end
 
 	# Returns the how much BTC one unit of cryptocurrency is worth.
-	def BTC_E(cryptocurrency)
-		sleep 0.1
-		url = case cryptocurrency
-			when "BTC" then
-				"https://btc-e.com/api/2/btc_usd/ticker"
-			else
-				"https://btc-e.com/api/2/" + cryptocurrency.downcase + "_btc/ticker"
-		end
+	def BTC_E_BTC(cryptocurrency)
+		sleep 0.3
+		url = "https://btc-e.com/api/2/" + cryptocurrency.downcase + "_btc/ticker"
 
 		response = Net::HTTP.get_response(URI.parse(url))
 		data = response.body
