@@ -37,6 +37,9 @@ class Setup
 	    AverageAssets.perform_async(120)
 	    AverageAssets.perform_async(360)
 
+	    # So done with setup appears after step 5 logs appear.
+	    sleep 3
+
 	    send_massage("log", "Done with Setup")
 	    puts " ------ Done with Setup!"
 	end
