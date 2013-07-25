@@ -14,6 +14,19 @@ class StaticpagesController < ApplicationController
   def about
   end
 
+  def database
+    # Contains the rows which will be displayed in the databse view.
+    @one_min_rows = [TimedAsset.first(4), TimedAsset.last(4)]
+
+    @five_min_rows = [FiveminuteTimedAsset.first(4), FiveminuteTimedAsset.last(4)]
+
+    @thirty_min_rows = [ThirtyminuteTimedAsset.first(4), ThirtyminuteTimedAsset.last(4)]
+
+    @two_hour_rows = [TwohoursTimedAsset.first(4), TwohoursTimedAsset.last(4)]
+
+    @six_hour_rows = [SixhoursTimedAsset.first(4), SixhoursTimedAsset.last(4)]
+  end
+
   def start_log
     HardWorker.perform_async
     AverageAssets.perform_async(5)

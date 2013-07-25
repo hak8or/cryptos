@@ -1,0 +1,63 @@
+<table style="margin-left:15px"><h3 class="subheader" style="margin-left:60px"><%= name %></h3>
+  <thead>
+    <tr>
+      <th>Btc</th>
+      <th>Ltc</th>
+      <th>Ppc</th>
+      <th>Nmc</th>
+      <th>Xpm</th>
+      <th>Asicminer</th>
+      <th>Asicminer 100</th>
+      <th>AMC</th>
+      <th>Comment</th>
+      <th>Time changed</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% rows.first.each do |row| %>
+      <tr>
+        <td><%= row.BTC %></td>
+        <td><%= row.LTC %></td>
+        <td><%= row.PPC %></td>
+        <td><%= row.NMC %></td>
+        <td><%= row.XPM %></td>
+        <td><%= row.AsicMiner %></td>
+        <td><%= row.AsicMiner_small %></td>
+        <td><%= row.Advanced_Mining_Corp %></td>
+        <td><%= row.comment %></td>
+        <td><%= row.time_changed %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td style="text-align:center">..............</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <% rows.second.each do |row| %>
+      <tr>
+        <td><%= row.BTC %></td>
+        <td><%= row.LTC %></td>
+        <td><%= row.PPC %></td>
+        <td><%= row.NMC %></td>
+        <td><%= row.XPM %></td>
+        <td><%= row.AsicMiner %></td>
+        <td><%= row.AsicMiner_small %></td>
+        <td><%= row.Advanced_Mining_Corp %></td>
+        <td><%= row.comment %></td>
+        <td><%= row.time_changed %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br><br>

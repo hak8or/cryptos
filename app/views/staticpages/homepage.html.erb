@@ -80,7 +80,7 @@
 	//==================================================CHART 2=====================================================
 	var chart2;
 	<% user_info = UserInfo.last %>
-	<% amount_of_items = 40 %>
+	<% amount_of_items = 25 %>
 	<% timed_assets = TwohoursTimedAsset.last(amount_of_items) %>
 	
 	function my_data_function() {
@@ -105,7 +105,7 @@
 		var AsicMiner_worth_in_USD = [];
 		<% timed_assets.each_with_index do |asset, index| %>
 			AsicMiner_worth_in_USD.push({x: '<%= asset.time_changed.strftime("%A %I:%M%p") %>', 
-								   y: <%= (user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
+								   		 y: <%= (user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
 								   		  (user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC) %>})
 		<% end %>
 

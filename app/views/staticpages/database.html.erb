@@ -1,13 +1,7 @@
 <br>
 <div class="row full-width" style="margin-left: 20px">
   <div class="large-2 columns">
-  <br><br><br>
-    5 Minute assets: <%= FiveminuteTimedAsset.count %> items <br>
-    30 Minute assets: <%= ThirtyminuteTimedAsset.count %> items <br>
-    2 hours assets: <%= TwohoursTimedAsset.count %> items <br>
-    6 hours assets: <%= SixhoursTimedAsset.count %> items
-
-    <p style="padding-top:40px">Resets the averages DB's and initiates fetching.</p>
+    <p style="padding-top:20px">Resets the averages DB's and initiates fetching.</p>
     <%= button_to "Setup", {:action => "Setup"}, 
         {class: "button secondary large", style: "margin-left:40px"} %>
 
@@ -25,341 +19,42 @@
     <%= button_to "Beging Logging", {:action => "start_log"}, 
         {class: "button small secondary", style: "margin-left:40px"} %>
 
-    ========================== <br>
-
-  <% workers = Sidekiq::Workers.new %>
-  Current running workers via queue:  <%= workers.size %> <br>
-  <% Sidekiq.redis do |conn| %>
-    Current running workers via redis:  <%= conn.smembers('workers').count %> <br>
-  <% end %>
-  <% workers.each do |worker, msg| %>
-    <% worker_data = msg['payload']['class'].to_s + msg['payload']['args'].to_s %> 
-    <%= worker_data %> <br>
-    <% # sidekiq/blob/master/web/views/_workers.slim for worker data
-       # worker is the unique ID per worker
-       # msg['payload']['class'] is the class of the worker
-       # msg['payload']['args'] are what arguments were sent to each worker %>
-  <% end %>
-
   </div>
 
-  <div class="large-10 columns">
-
-    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">1 Minute assets</h3>
-      <thead>
-        <tr>
-          <th>Btc</th>
-          <th>Ltc</th>
-          <th>Ppc</th>
-          <th>Nmc</th>
-          <th>Xpm</th>
-          <th>Asicminer</th>
-          <th>Asicminer small</th>
-          <th>Advanced mining corp</th>
-          <th>Comment</th>
-          <th>Time changed</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% TimedAsset.first(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align:center">..............</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <% TimedAsset.last(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <br><br>
-
-    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">5 Minute assets</h3>
-      <thead>
-        <tr>
-          <th>Btc</th>
-          <th>Ltc</th>
-          <th>Ppc</th>
-          <th>Nmc</th>
-          <th>Xpm</th>
-          <th>Asicminer</th>
-          <th>Asicminer small</th>
-          <th>Advanced mining corp</th>
-          <th>Comment</th>
-          <th>Time changed</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% FiveminuteTimedAsset.first(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align:center">..............</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <% FiveminuteTimedAsset.last(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <br><br>
-
-    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">30 Minute assets</h2>
-      <thead>
-        <tr>
-          <th>Btc</th>
-          <th>Ltc</th>
-          <th>Ppc</th>
-          <th>Nmc</th>
-          <th>Xpm</th>
-          <th>Asicminer</th>
-          <th>Asicminer small</th>
-          <th>Advanced mining corp</th>
-          <th>Comment</th>
-          <th>Time changed</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% ThirtyminuteTimedAsset.first(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align:center">..............</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <% ThirtyminuteTimedAsset.last(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <br><br>
-
-    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">2 hours assets</h2>
-      <thead>
-        <tr>
-          <th>Btc</th>
-          <th>Ltc</th>
-          <th>Ppc</th>
-          <th>Nmc</th>
-          <th>Xpm</th>
-          <th>Asicminer</th>
-          <th>Asicminer small</th>
-          <th>Advanced mining corp</th>
-          <th>Comment</th>
-          <th>Time changed</th>
-        </tr>
-      </thead>
-
-        <% TwohoursTimedAsset.first(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align:center">..............</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <% TwohoursTimedAsset.last(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <br><br>
-
-    <table style="margin-left:15px"><h3 class="subheader" style="padding-left:40px">6 hours assets</h2>
-      <thead>
-        <tr>
-          <th>Btc</th>
-          <th>Ltc</th>
-          <th>Ppc</th>
-          <th>Nmc</th>
-          <th>Xpm</th>
-          <th>Asicminer</th>
-          <th>Asicminer small</th>
-          <th>Advanced mining corp</th>
-          <th>Comment</th>
-          <th>Time changed</th>
-        </tr>
-      </thead>
-
-        <% SixhoursTimedAsset.first(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align:center">..............</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <% SixhoursTimedAsset.last(4).each do |timed_asset| %>
-          <tr>
-            <td><%= timed_asset.BTC %></td>
-            <td><%= timed_asset.LTC %></td>
-            <td><%= timed_asset.PPC %></td>
-            <td><%= timed_asset.NMC %></td>
-            <td><%= timed_asset.XPM %></td>
-            <td><%= timed_asset.AsicMiner %></td>
-            <td><%= timed_asset.AsicMiner_small %></td>
-            <td><%= timed_asset.Advanced_Mining_Corp %></td>
-            <td><%= timed_asset.comment %></td>
-            <td><%= timed_asset.time_changed %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
+  <div class="large-8 columns">
+    <%= render 'table', :rows => @one_min_rows, :name => "1 Minute Assets" %>
+    <%= render 'table', :rows => @five_min_rows, :name => "5 Minute Assets" %>
+    <%= render 'table', :rows => @thirty_min_rows, :name => "30 Minute Assets" %>
+    <%= render 'table', :rows => @two_hour_rows, :name => "2 Hour Assets" %>
+    <%= render 'table', :rows => @six_hour_rows, :name => "6 Hour Assets" %>
   </div>
+
+  <div class="large-2 columns">
+    <h3 class="subheader" style="margin-left:10px">Stats</h3>
+
+    <ul class="no-bullet" style="padding-bottom:20px">
+      <li> 5 Minute assets: <%= FiveminuteTimedAsset.count %> items </li>
+      <li> 30 Minute assets: <%= ThirtyminuteTimedAsset.count %> items </li>
+      <li> 2 hours assets: <%= TwohoursTimedAsset.count %> items </li>
+      <li> 6 hours assets: <%= SixhoursTimedAsset.count %> items </li>
+    </ul>
+
+    <% workers = Sidekiq::Workers.new %>
+    Running workers via queue:  <%= workers.size %> <br>
+
+    <% Sidekiq.redis do |conn| %>
+      Running workers via redis:  <%= conn.smembers('workers').count %> <br>
+    <% end %>
+
+    <ul class="no-bullet" style="padding-left:10px;padding-top:6px;">
+      <% workers.each do |worker, msg| %>
+        <li> <%= msg['payload']['class'].to_s + msg['payload']['args'].to_s %> </li>
+        <% # sidekiq/blob/master/web/views/_workers.slim for worker data
+           # worker is the unique ID per worker
+           # msg['payload']['class'] is the class of the worker
+           # msg['payload']['args'] are what arguments were sent to each worker %>
+      <% end %>
+    </ul>
+  </div>
+
 </div>
