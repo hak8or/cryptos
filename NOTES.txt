@@ -8,6 +8,8 @@ Todo:
 	- Starting up logging only writes if time passed from last write is correct.
 	- Fill in gaps for 1 minute assets table by averaging surrounding rows
 	- Remove 1 minute assets rows which are closer than 30 seconds.
+	- Seperate main DB used for filling average tables, short DB containing only
+		times and BTC prices for line chart. Preformance reasons.
 
 		==== DB Page ====
 	- When Nuking and Averaging tables, show status on website (ajax and shiz)
@@ -16,15 +18,15 @@ Todo:
 	- Homepage on left needs to be more easy to read (Total USD clearer)
 	- Add in a bar representing finances as of the current minute on homepage
 	- Ability to represent bar graph in terms of BTC or USD(at the time)
-	- Line chart needs to display the timing instead of index
+NOW	- Line chart needs to display the timing instead of index
 	- Allow homepage assets overview (left side) to update in realtime
 	- More charts!
-	- Clean up JS for homepage, one seperate file via asset pipeline?
+NOW	- Clean up JS for homepage, one seperate file via asset pipeline?
 	
 		==== MISC ====
 	- Public release? Keep quetly on github?
 	- Combine all JS into one file via rails asset pipeline(?)
-	- Clean up styling for each page
+	- Clean up styling for each page (move into CSS file)
 	- Remove unused views and controllers.
 	- Turbolinks?
 	- Links from homepage to DB page and vice versa
@@ -35,6 +37,11 @@ Todo:
 	- messeges moved to redis instead of postgres?
 
 --------------------------------------------------------------
+
+!!!!--- Pluck returns an un-ordered list ---!!!!
+	Therefore, must order the entire friggen table first, then pluck, and then get last which
+	makes the list get orederd again anywas. My method sucks, must find better way!
+	Check out https://groups.google.com/forum/#!topic/rubyonrails-talk/a8EGtT16qiI for a fix.
 
 SQLITE3 does not handle cuncurrent reads and writes well, making the average old assets method 
 	not work due to the method being very parallal (writes at same time). Postgresql handles this

@@ -1,36 +1,3 @@
-<div class="row full-width" style="padding-top:2%">
-	<div class="large-2 columns"> 
-		<h1 class="subheader">BTC: $<%= @BTC_USD_VALUE.round(2) %></h2>
-		
-		<h4 class="subheader" style="padding-top:40px">Altcoins</h4>
-		BTC: <%= UserInfo.last.BTC.round(4) %> BTC <br>
-		LTC: <%= (UserInfo.last.LTC * @last_asset.LTC).round(4) %> BTC <br>
-		PPC: <%= (UserInfo.last.PPC * @last_asset.PPC).round(4) %> BTC <br>
-		NMC: <%= (UserInfo.last.NMC * @last_asset.NMC).round(4) %> BTC <br>
-		XPM: <%= (UserInfo.last.XPM * @last_asset.XPM).round(4) %> BTC
-
-		<h4 class="subheader" style="padding-top:40px">Investments</h4>
-		AsicMiner: <%= (UserInfo.last.AsicMiner * @last_asset.AsicMiner).round(4) %> BTC <br>
-		AsicMiner small: <%= (UserInfo.last.AsicMiner_small * @last_asset.AsicMiner_small).round(4) %> BTC <br>
-		Advanced Mining Corp: <%=(UserInfo.last.Advanced_Mining_Corp * @last_asset.Advanced_Mining_Corp).round(4)%> BTC
-
-		<h4 class="subheader" style="padding-top:40px">Totals</h4>
-		Total BTC of assets: <%= @assets_in_BTC.round(5) %> <br>
-		Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %>
-	</div>
-
-	<div class="large-10 columns">
-		<div id="chart1">
-	    	<svg style="height:300px;"></svg>
-	  	</div>
-
-	  	<div id="test1" style="padding-top:20px">
-	    	<svg style="height:500px;"></svg>
-	  	</div>
-	</div>
-</div>
-
-<script>
 function get_BTC_prices() {
     	var my_data = [];
 
@@ -132,4 +99,3 @@ function get_BTC_prices() {
 	    return chart;
 	  },
 	});
-</script>

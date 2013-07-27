@@ -1,14 +1,28 @@
 class StaticpagesController < ApplicationController
   def homepage
   	require 'net/http'
-  	@assets = TimedAsset.last(500)
 
-    @BTC_USD_VALUE = @assets.last.BTC
-    @LTC_USD_VALUE = @assets.last.LTC
-    @AsicMiner = @assets.last.AsicMiner
-    @AsicMiner_small = @assets.last.AsicMiner_small
-    @Advanced_Mining_Corp = @assets.last.Advanced_Mining_Corp
+    @last_asset = TimedAsset.last
+
+    @BTC_USD_VALUE = TimedAsset.last.BTC
+    @LTC_USD_VALUE = TimedAsset.last.LTC
+    @AsicMiner = TimedAsset.last.AsicMiner
+    @AsicMiner_small = TimedAsset.last.AsicMiner_small
+    @Advanced_Mining_Corp = TimedAsset.last.Advanced_Mining_Corp
     @assets_in_BTC = get_btc_in_assets
+
+    gon.user_info = UserInfo.last
+
+    #     !!!!!!!! PLUCK GIVES YOU AN UNORDERED LIST !!!!!!!!
+    # 720 minutes is 12 hours, causing line chart to dislay 12 hours of data.
+    # https://groups.google.com/forum/#!topic/rubyonrails-talk/a8EGtT16qiI
+    gon.short_BTC_prices = TimedAsset.order("id desc").limit(720).pluck(:BTC, :time_changed)
+
+    # gon.short_assets = TimedAsset.last(30)
+    # gon.short_assets = FiveminuteTimedAsset.last(30)
+    # gon.short_assets = ThirtyminuteTimedAsset.last(30)
+    # gon.short_assets = TwohoursTimedAsset.last(30)
+    gon.short_assets = SixhoursTimedAsset.last(35)
   end
 
   def about
@@ -77,13 +91,13 @@ class StaticpagesController < ApplicationController
   	user_info = UserInfo.last
   	
   	btc_asset_amount = user_info.BTC + 
-			(user_info.LTC * @assets.last.LTC) + 
-			(user_info.PPC * @assets.last.PPC) +
-			(user_info.NMC * @assets.last.NMC) +
-			(user_info.XPM * @assets.last.XPM) +
-			(user_info.AsicMiner * @assets.last.AsicMiner) +
-			(user_info.AsicMiner_small * @assets.last.AsicMiner_small) +
-			(user_info.Advanced_Mining_Corp * @assets.last.Advanced_Mining_Corp)
+			(user_info.LTC * TimedAsset.last.LTC) + 
+			(user_info.PPC * TimedAsset.last.PPC) +
+			(user_info.NMC * TimedAsset.last.NMC) +
+			(user_info.XPM * TimedAsset.last.XPM) +
+			(user_info.AsicMiner * TimedAsset.last.AsicMiner) +
+			(user_info.AsicMiner_small * TimedAsset.last.AsicMiner_small) +
+			(user_info.Advanced_Mining_Corp * TimedAsset.last.Advanced_Mining_Corp)
 
   	return btc_asset_amount
   end
