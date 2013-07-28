@@ -23,6 +23,9 @@ class StaticpagesController < ApplicationController
     # gon.short_assets = ThirtyminuteTimedAsset.last(30)
     # gon.short_assets = TwohoursTimedAsset.last(30)
     gon.short_assets = SixhoursTimedAsset.last(35)
+
+    # Add in the most recent data for the bar graph as well.
+    gon.short_assets.push(TimedAsset.last)
   end
 
   def about

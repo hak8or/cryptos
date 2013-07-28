@@ -16,12 +16,10 @@ Todo:
 
 		==== Homepage ====
 	- Homepage on left needs to be more easy to read (Total USD clearer)
-	- Add in a bar representing finances as of the current minute on homepage
 	- Ability to represent bar graph in terms of BTC or USD(at the time)
-NOW	- Line chart needs to display the timing instead of index
 	- Allow homepage assets overview (left side) to update in realtime
 	- More charts!
-NOW	- Clean up JS for homepage, one seperate file via asset pipeline?
+	- Clean up JS for homepage, one seperate file via asset pipeline?
 	
 		==== MISC ====
 	- Public release? Keep quetly on github?
