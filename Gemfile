@@ -64,6 +64,9 @@ end
 # sqlite3 does not handle concurrent reads and writes well, postresql it is!
 gem 'pg'
 
+# ClockWork gem to handle repeated tasks (fetch assets data every minute)
+gem 'clockwork'
+
 # TEMPORARY HERE!!! DELETE AFTER MIGRATING DB FROM SQLITE3 TO POSTGRESQL
 # https://github.com/ricardochimal/taps/issues/128
 # gem 'taps', :git => 'git://github.com/ricardochimal/taps.git'

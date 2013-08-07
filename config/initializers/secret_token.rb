@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Cryptos::Application.config.secret_key_base = '7d8c9447d60fa551a67a500eab950217c47c78aae38999c35d7403ee63382df397e00951842958ae9f216725cec3ef00460426060520770d23a4304e02d3ef1a'
+Cryptos::Application.config.secret_key_base = 'ad3c9447d60fa551a63a500eab95f217c47c78aae38999c34d7403ee63a82df397e00951842938ae9f216725cec3ef04a60426060520770f23a4304e02d3e43c'

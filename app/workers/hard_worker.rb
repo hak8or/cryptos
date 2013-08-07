@@ -3,43 +3,26 @@ class HardWorker
 	require 'net/http'
 
 	def perform
-		i = 0
-		while i != 1
-			puts "1 minute asset fetch V06    " + Time.now.to_s + "  Row: " + TimedAsset.count.to_s
+		puts "1 minute asset fetch V06    " + Time.now.to_s + "  Row: " + TimedAsset.count.to_s
 
-			another_row = TimedAsset.new(
-				:BTC => MTGOX_USD("BTC"),
-				:LTC => BTC_E_BTC("LTC"),
-				:PPC => BTC_E_BTC("PPC"),
-				:NMC => BTC_E_BTC("NMC"),
-				:XPM => Vircurex("XPM"),
-				:AsicMiner => BTCT_BTC("ASICMINER-PT"),
-				:AsicMiner_small => BTCT_BTC("TAT.ASICMINER"),
-				:Advanced_Mining_Corp => BTCT_BTC("AMC-PT"),
-				:misc1 => 0,
-				:misc2 => 0,
-				:misc3 => 0,
-				:comment => "HardWorker did this",
-				:time_changed => Time.now
-			)
-			another_row.save
-			
-			# Check once a second for worker messages.
-			amnt_seconds = 60
-
-			# If there was a message to all stating shutdown, close this process.
-			amnt_seconds.times do
-				sleep 1
-
-				message = Messages.find_by target: "ALL"
-				next if message.nil?
-				if message[:body] == "SHUTDOWN"
-					return
-				end
-			end
-		end
+		another_row = TimedAsset.new(
+			:BTC => MTGOX_USD("BTC"),
+			:LTC => BTC_E_BTC("LTC"),
+			:PPC => BTC_E_BTC("PPC"),
+			:NMC => BTC_E_BTC("NMC"),
+			:XPM => Vircurex("XPM"),
+			:AsicMiner => BTCT_BTC("ASICMINER-PT"),
+			:AsicMiner_small => BTCT_BTC("TAT.ASICMINER"),
+			:Advanced_Mining_Corp => BTCT_BTC("AMC-PT"),
+			:misc1 => 0,
+			:misc2 => 0,
+			:misc3 => 0,
+			:comment => "HardWorker did this",
+			:time_changed => Time.now
+		)
+		another_row.save
 	end
-
+	
 	private
 
 	# Returns the how much BTC one unit of cryptocurrency is worth.

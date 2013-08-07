@@ -2,41 +2,22 @@ class AverageAssets
 	include Sidekiq::Worker
 
 	def perform(minutes = 5)
-		i = 1
-		while i != 0
-			puts minutes.to_s + " minutes average: " + Time.now.to_s
+		puts minutes.to_s + " minutes average: " + Time.now.to_s
 
-			short_table = TimedAsset.last(minutes)
+		short_table = TimedAsset.last(minutes)
 
-			case minutes
-				when 5
-					another_row = FiveminuteTimedAsset.new( average(short_table) )
-				when 30
-					another_row = ThirtyminuteTimedAsset.new( average(short_table) )
-				when 120
-					another_row = TwohoursTimedAsset.new( average(short_table) )
-				when 360
-					another_row = SixhoursTimedAsset.new( average(short_table) )
-			end
-
-			another_row.save
-
-			amnt_seconds = minutes * 60
-
-			# If there was a message to all stating shutdown, close this process.
-			amnt_seconds.times do
-				sleep 1
-
-				message = Messages.find_by target: "ALL"
-				next if message.nil?
-
-				if message.body == "SHUTDOWN"
-					return
-				end
-			end
-
-		end # End case
-	end # End preform method
+		case minutes
+			when 5
+				another_row = FiveminuteTimedAsset.new( average(short_table) )
+			when 30
+				another_row = ThirtyminuteTimedAsset.new( average(short_table) )
+			when 120
+				another_row = TwohoursTimedAsset.new( average(short_table) )
+			when 360
+				another_row = SixhoursTimedAsset.new( average(short_table) )
+		end
+		another_row.save
+	end # End perform method
 
 	private
 
