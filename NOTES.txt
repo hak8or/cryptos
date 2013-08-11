@@ -3,6 +3,10 @@
 	- Public release? Keep quetly on github?
 --------------------------------------------------------------
 
+gon.watch does not work with just strings!
+	gon.watch.var = "string" does not work
+	gon.watch.var = ["string"] putting a string in an array does work though.
+
 !!!!--- Pluck returns an un-ordered list ---!!!!
 	Therefore, must order the entire friggen table first, then pluck, and then get last which
 	makes the list get orederd again anywas. My method sucks, must find better way!

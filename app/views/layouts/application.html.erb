@@ -15,7 +15,7 @@
 
   	<title><%= content_for?(:title) ? yield(:title) : "Crypto Info" %></title>
 
-    <%= include_gon %>
+    <%= include_gon(watch: true) %>
 
     <%= javascript_include_tag "d3.v3" %>
     <%= javascript_include_tag "nv.d3" %>
