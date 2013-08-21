@@ -6,7 +6,7 @@ class FetchAssets
 		puts "1 minute asset fetch V06    " + Time.now.to_s + "  Row: " + TimedAsset.count.to_s
 
 		another_row = TimedAsset.new(
-			:BTC => MTGOX_USD("BTC"),
+			:BTC => bitcoinaverage_com("BTC"),
 			:LTC => BTC_E_BTC("LTC"),
 			:PPC => BTC_E_BTC("PPC"),
 			:NMC => BTC_E_BTC("NMC"),
@@ -80,6 +80,24 @@ class FetchAssets
 		data = response.body
 		result = ActiveSupport::JSON.decode(data)
 		return result['data']['last']['value']
+	end
+
+	# Returns the how much USD one unit of cryptocurrency is worth. This is used
+	# instead of MtGox since bitcoinaverage takes into account the volume of other
+	# exchanges, giving a more realistic price. As of this commit, MtGox has large
+	# issues taking USD out, so the price is artificially inflated. This average 
+	# aims to get around that discrepancy by using the average of other exchanges
+	# and based on their volume.
+	def bitcoinaverage_com(cryptocurrency = "BTC")
+		url = case cryptocurrency
+			when "BTC" then
+				"http://api.bitcoinaverage.com/ticker/USD"
+		end
+
+		response = Net::HTTP.get_response(URI.parse(url))
+		data = response.body
+		result = ActiveSupport::JSON.decode(data)
+		return result['last']
 	end
 
 	# Returns the how much BTC one unit of asset is worth.
