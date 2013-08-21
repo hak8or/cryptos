@@ -24,11 +24,11 @@ $(document).ready ->
 
   # Investments section
   renew_AsicMiner_value = (data) ->
-  	$('#AsicMiner_value').text("AsicMiner: " + data.toFixed(4) + " BTC")
+    $('#AsicMiner_value').text("AsicMiner: " + data.toFixed(4) + " BTC")
   renew_AsicMiner_small_value = (data) ->
-  	$('#AsicMiner_small_value').text("AsicMiner small: " + data.toFixed(4) + " BTC")
+    $('#AsicMiner_small_value').text("AsicMiner small: " + data.toFixed(4) + " BTC")
   renew_Advanced_Mining_Corp_value = (data) ->
-  	$('#Advanced_Mining_Corp_value').text("Advanced Mining Corp: " + data.toFixed(4) + " BTC")
+    $('#Advanced_Mining_Corp_value').text("Advanced Mining Corp: " + data.toFixed(4) + " BTC")
 
   # Totals section
   renew_BTC_total_value = (data) ->
@@ -36,8 +36,10 @@ $(document).ready ->
   renew_USD_total_value = (data) ->
   	$('#USD_total_value').text("Total USD of assets: $" + data.toFixed(2))
 
-  #			   /-the gon watch variable name
-  #			   |
+  #			     /- The gon watch variable name.
+  #			     |          /- How often to call the later function in ms.
+  #          |          |               /- The function to call after previous interval.
+  #          |          |               |
   gon.watch('time', interval: 10000, renew_Time)
 
   gon.watch('BTC_price', interval: 10000, renew_BTC_price)

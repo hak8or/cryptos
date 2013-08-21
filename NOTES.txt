@@ -3,6 +3,10 @@
 	- Public release? Keep quetly on github?
 --------------------------------------------------------------
 
+Pass in the last four entires and current minute entry for timed assets. Use JS to parse the
+timed assets data client side (decreases AJAX calls significantly and prevents unecessary repeat
+queries to the DB).
+
 gon.watch does not work with just strings!
 	gon.watch.var = "string" does not work
 	gon.watch.var = ["string"] putting a string in an array does work though.

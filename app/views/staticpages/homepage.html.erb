@@ -3,30 +3,40 @@
 		<h1 id="BTC_price" class="subheader">BTC: $<%= @BTC_USD_VALUE.round(2) %></h2>
 		
 		<h4 class="subheader" style="padding-top:40px">Altcoins</h4>
-			<div id="BTC_value">BTC: <%= UserInfo.last.BTC.round(4) %></div>
-			<div id="LTC_value">LTC: <%= (UserInfo.last.LTC * @last_asset.LTC).round(4) %> BTC </div>
-			<div id="PPC_value">PPC: <%= (UserInfo.last.PPC * @last_asset.PPC).round(4) %> BTC</div>
-			<div id="NMC_value">NMC: <%= (UserInfo.last.NMC * @last_asset.NMC).round(4) %> BTC <br></div>
-			<div id="XPM_value">XPM: <%= (UserInfo.last.XPM * @last_asset.XPM).round(4) %> BTC</div>
+			<span id="BTC_value" data-reveal-id="BTC_Modal" class="has_chart">
+				BTC: <%= UserInfo.last.BTC.round(4) %>
+			</span><br>
+			<span id="LTC_value" data-reveal-id="LTC_Modal" class="has_chart">
+				LTC: <%= (UserInfo.last.LTC * @last_asset.LTC).round(4) %> BTC 
+			</span><br>
+			<span id="PPC_value" data-reveal-id="PPC_Modal" class="has_chart">
+				PPC: <%= (UserInfo.last.PPC * @last_asset.PPC).round(4) %> BTC
+			</span><br>
+			<span id="NMC_value" data-reveal-id="NMC_Modal" class="has_chart">
+				NMC: <%= (UserInfo.last.NMC * @last_asset.NMC).round(4) %> BTC
+			</span><br>
+			<span id="XPM_value" data-reveal-id="XPM_Modal" class="has_chart">
+				XPM: <%= (UserInfo.last.XPM * @last_asset.XPM).round(4) %> BTC
+			</span><br>
 
 		<h4 class="subheader" style="padding-top:40px">Investments</h4>
-			<div id="AsicMiner_value">
-				AsicMiner: <%= (UserInfo.last.AsicMiner * @last_asset.AsicMiner).round(4) %> BTC 
-			</div>
-			<div id="AsicMiner_small_value">
+			<span id="AsicMiner_value" data-reveal-id="AsicMiner_Modal" class="has_chart">
+				AsicMiner: <%= (UserInfo.last.AsicMiner * @last_asset.AsicMiner).round(4) %> BTC temp
+			</span><br>
+			<span id="AsicMiner_small_value" data-reveal-id="AsicMiner_small_Modal" class="has_chart">
 				AsicMiner small: <%= (UserInfo.last.AsicMiner_small * @last_asset.AsicMiner_small).round(4) %> BTC 
-			</div>
-			<div id="Advanced_Mining_Corp_value">
+			</span><br>
+			<span id="Advanced_Mining_Corp_value" data-reveal-id="Advanced_Mining_Corp_Modal" class="has_chart">
 				Advanced Mining Corp: <%=(UserInfo.last.Advanced_Mining_Corp * @last_asset.Advanced_Mining_Corp).round(4)%> BTC 
-			</div>
+			</span><br>
 
 		<h4 class="subheader" style="padding-top:40px">Totals</h4>
-			<div id="BTC_total_value">
-				Total BTC of assets: <%= @assets_in_BTC.round(5) %>
-			</div>
-			<div id="USD_total_value">
-				Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %>
-			</div>
+			<span id="BTC_total_value" data-reveal-id="BTC_Total_Modal" class="has_chart"> 
+				Total BTC of assets: <%= @assets_in_BTC.round(5) %> 
+			</span><br>
+			<span id="USD_total_value" data-reveal-id="USD_Total_Modal" class="has_chart"> 
+				Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %> 
+			</span><br>
 	</div>
 
 	<div class="large-10 columns">
@@ -40,10 +50,93 @@
 
 	  	<div id='updated' style="text-align:right;">Last updated: <%= Time.now.strftime("%I:%M:%S %p") %></div>
 	</div>
+
+	<div id="BTC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC</h2>
+		<svg id="BTC_Modal_SVG" style="height:600px;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="LTC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/LTC</h2>
+		<svg id="LTC_Modal_SVG" style="height:600px;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="PPC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/PPC</h2>
+		<svg id="PPC_Modal_SVG" style="height:600px;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="NMC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/NMC</h2>
+		<svg id="NMC_Modal_SVG" style="height:600px;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="XPM_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/XPM</h2>
+		<svg id="XPM_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+
+	<div id="AsicMiner_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/AsicMiner</h2>
+		<svg id="AsicMiner_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="AsicMiner_small_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/AsicMiner 100PT</h2>
+		<svg id="AsicMiner_small_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="Advanced_Mining_Corp_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC/Advanced Mining Corp</h2>
+		<svg id="Advanced_Mining_Corp_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+
+	<div id="BTC_Total_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>BTC value of investments over time.</h2>
+		<svg id="BTC_Total_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
+	<div id="USD_Total_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
+								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
+		<h2>USD value of investments over time.</h2>
+		<svg id="USD_Total_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
+		<a class="close-reveal-modal">×</a>
+	</div>
 </div>
 
 <script>
-function get_BTC_prices() {
+// This is here because you cannot use css (from what I know) to set the width of an element based
+// on the screen resolution, and instead can base the percentage only on the parent element.
+	document.getElementById("BTC_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("LTC_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("PPC_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("NMC_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("XPM_Modal_SVG").style.width= window.innerWidth * 0.74;
+
+// Same as above, but solely for securities.
+	document.getElementById("AsicMiner_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("AsicMiner_small_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("Advanced_Mining_Corp_Modal_SVG").style.width= window.innerWidth * 0.74;
+
+// Again, same as above but solely for totals.
+	document.getElementById("BTC_Total_Modal_SVG").style.width= window.innerWidth * 0.74;
+	document.getElementById("USD_Total_Modal_SVG").style.width= window.innerWidth * 0.74;
+
+
+
+
+	function get_BTC_prices() {
     	var my_data = [];
 
 		for (var i = 0; i < gon.short_BTC_prices.length; i++) {
@@ -60,6 +153,7 @@ function get_BTC_prices() {
 		}];
 	}
 	
+	// Merge asset_prices() with asset_values()!
 	function asset_prices() {
 		var LTC_and_XPM_worth_in_USD = [];
 		var BTC_worth_in_USD = [];
@@ -88,7 +182,124 @@ function get_BTC_prices() {
 				x: date, 
 				y: (gon.user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
 				   (gon.user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC)  })
-		};			
+		};
+
+	return [
+		{	values: LTC_and_XPM_worth_in_USD,
+			key: "LTC & XPM"},
+
+		{	values: BTC_worth_in_USD,
+			key: "BTC"},
+
+		{	values: AMC_worth_in_USD,
+			key: "AMC"},
+
+		{	values: AsicMiner_worth_in_USD,
+			key: "AsicMiner"}
+		];
+	}
+
+
+	function asset_values(asset_option)
+	{
+		var data = [];
+		
+		for (var i = 0; i < gon.short_assets.length; i++ ) 
+		{
+			var asset = gon.short_assets[i]
+			var date = new Date(asset.time_changed);
+
+			// I currently do not know how to have a string turn into a variable name, so I am stuck
+			// with doing this as a massive switch case statement inside the loop. Once I find out
+			// how to convert a string to a variable name I will just copy asset.LTC to another var
+			// so I don't have to do this case statement everytime I go through this loop, saving
+			// a good bit of preformance (hopefully).
+			switch (asset_option)
+			{
+				case "LTC":
+					data.push({ x: date.getTime(), y: asset.LTC }); break;
+				case "BTC":
+					data.push({ x: date.getTime(), y: asset.BTC });
+					break;
+				case "XPM":
+					data.push({ x: date.getTime(), y: asset.XPM });
+					break;
+				case "PPC":
+					data.push({ x: date.getTime(), y: asset.PPC });
+					break;
+				case "NMC":
+					data.push({ x: date.getTime(), y: asset.NMC });
+					break;
+				case "AsicMiner":
+					data.push({ x: date.getTime(), y: asset.AsicMiner });
+					break;
+				case "AsicMiner_small":
+					data.push({ x: date.getTime(), y: asset.AsicMiner_small });
+					break;
+				case "Advanced_Mining_Corp":
+					data.push({ x: date.getTime(), y: asset.Advanced_Mining_Corp });
+					break;
+				case "BTC_Total":
+					data.push({ x: date.getTime(), y: 
+						gon.user_info.BTC + 
+						(gon.user_info.LTC * asset.LTC) + 
+						(gon.user_info.PPC * asset.PPC) +
+						(gon.user_info.NMC * asset.NMC) +
+						(gon.user_info.XPM * asset.XPM) +
+						(gon.user_info.AsicMiner * asset.AsicMiner) +
+						(gon.user_info.AsicMiner_small * asset.AsicMiner_small) +
+						(gon.user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp)
+					});
+					break;
+				case "USD_Total":
+					data.push({ x: date.getTime(), y: 
+						(gon.user_info.BTC + 
+						(gon.user_info.LTC * asset.LTC) + 
+						(gon.user_info.PPC * asset.PPC) +
+						(gon.user_info.NMC * asset.NMC) +
+						(gon.user_info.XPM * asset.XPM) +
+						(gon.user_info.AsicMiner * asset.AsicMiner) +
+						(gon.user_info.AsicMiner_small * asset.AsicMiner_small) +
+						(gon.user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp)) * asset.BTC
+					});
+					break;
+				default:
+					data.push({ x: date.getTime(), y: 0 });
+					break;
+			}
+		}
+		return [{ values: data, key: asset_option }];
+	}
+
+	function asset_prices() {
+		var LTC_and_XPM_worth_in_USD = [];
+		var BTC_worth_in_USD = [];
+		var AMC_worth_in_USD = [];
+		var AsicMiner_worth_in_USD = [];
+
+		for (var i = 0; i < gon.short_assets.length; i++) {
+			asset = gon.short_assets[i];
+			
+			date = new Date(asset.time_changed);
+			
+			LTC_and_XPM_worth_in_USD.push({
+				x: date, 
+				y: (gon.user_info.LTC * asset.LTC * asset.BTC) + 
+				   (gon.user_info.XPM * asset.XPM * asset.BTC) })
+
+			BTC_worth_in_USD.push({
+				x: date, 
+				y: gon.user_info.BTC * asset.BTC})
+
+			AMC_worth_in_USD.push({
+				x: date, 
+				y: gon.user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp * asset.BTC})
+
+			AsicMiner_worth_in_USD.push({
+				x: date, 
+				y: (gon.user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
+				   (gon.user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC)  })
+		};
 
 	return [
 		{	values: LTC_and_XPM_worth_in_USD,
@@ -123,6 +334,240 @@ function get_BTC_prices() {
 
 	  return chart;
 	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d')(new Date(d))
+		});
+
+	  d3.select('#BTC_Modal svg')
+	    .datum(asset_values("BTC"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#BTC_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d')(new Date(d))
+		});
+
+	  d3.select('#XPM_Modal svg')
+	    .datum(asset_values("XPM"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#XPM_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#PPC_Modal svg')
+	    .datum(asset_values("PPC"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#PPC_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#NMC_Modal svg')
+	    .datum(asset_values("NMC"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#NMC_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#LTC_Modal svg')
+	    .datum(asset_values("LTC"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#LTC_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	// Asset shares
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#AsicMiner_Modal svg')
+	    .datum(asset_values("AsicMiner"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#AsicMiner_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#AsicMiner_small_Modal svg')
+	    .datum(asset_values("AsicMiner_small"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#AsicMiner_small_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#Advanced_Mining_Corp_Modal svg')
+	    .datum(asset_values("Advanced_Mining_Corp"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#Advanced_Mining_Corp_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+	  chart = nv.models.lineChart();
+
+	  chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+	  d3.select('#BTC_Total_Modal svg')
+	    .datum(asset_values("BTC_Total"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#BTC_Total_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+
+	  nv.utils.windowResize(chart.update);
+
+	  return chart;
+	});
+
+	nv.addGraph(function() {
+		chart = nv.models.lineChart();
+
+		chart.yAxis.tickFormat(function(d) { return d3.format(',.2f')(d) });
+
+		chart.xAxis.tickFormat(function(d) {
+			return d3.time.format('%b %d %I:%M')(new Date(d))
+		});
+
+		d3.select('#USD_Total_Modal svg')
+	    .datum(asset_values("USD_Total"))
+	    .transition().duration(500)
+	    .call(chart);
+
+	    // Removing the starting labels because when in modal the starting label and first label 
+	    // crowd over each other.
+		d3.select('#USD_Total_Modal svg').selectAll('g.nv-axisMaxMin').remove();
+		d3.select('#USD_Total_Modal svg').selectAll('g.nv-legendWrap').remove();
+
+		nv.utils.windowResize(chart.update);
+
+		return chart;
+	});
+
 
 	nv.addGraph({
 	  generate: function() {

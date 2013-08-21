@@ -4,3 +4,9 @@
 .full-width{
  	max-width:98%;
  }
+
+$blue: #3bbfce;
+
+.has_chart:hover{
+	color: $blue;
+}

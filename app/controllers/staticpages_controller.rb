@@ -27,6 +27,9 @@ class StaticpagesController < ApplicationController
     # Add in the most recent data for the bar graph as well.
     gon.short_assets.push(TimedAsset.last)
 
+    gon.individual_assets = ThirtyminuteTimedAsset.last(100)
+    gon.individual_assets.push(TimedAsset.last)
+
     gon.watch.time = [Time.now.strftime("%I:%M:%S %p")]
     gon.watch.BTC_price = TimedAsset.last.BTC
     gon.watch.BTC_value = UserInfo.last.BTC
