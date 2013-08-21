@@ -24,7 +24,7 @@ module Clockwork
   end
 
   every 1.minute, '1 minute fetch' do
-    HardWorker.perform_async
+    FetchAssets.perform_async
   end
 
   every 5.minute, '5 minute average row' do

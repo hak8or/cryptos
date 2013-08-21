@@ -1,4 +1,4 @@
-class HardWorker
+class FetchAssets
 	include Sidekiq::Worker
 	require 'net/http'
 
@@ -17,7 +17,7 @@ class HardWorker
 			:misc1 => 0,
 			:misc2 => 0,
 			:misc3 => 0,
-			:comment => "HardWorker did this",
+			:comment => "FetchAssets did this",
 			:time_changed => Time.now
 		)
 		another_row.save
