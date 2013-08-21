@@ -19,6 +19,11 @@
     <%= button_to "Beging Logging", {:action => "start_log"}, 
         {class: "button small secondary", style: "margin-left:40px"} %>
 
+    <ul class="button-group round" style="padding-top:30%">
+      <li><a href="/" id="admin_buttons_homepage" class="small button">Home</a></li>
+      <li><a href="/database" id="admin_buttons_homepage" class="small button">Database</a></li>
+      <li><a href="/sidekiq" id="admin_buttons_homepage" class="small button">Sidekiq</a></li>
+    </ul>
   </div>
 
   <div class="large-8 columns">

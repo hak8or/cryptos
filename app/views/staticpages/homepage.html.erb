@@ -37,6 +37,12 @@
 			<span id="USD_total_value" data-reveal-id="USD_Total_Modal" class="has_chart"> 
 				Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %> 
 			</span><br>
+
+		<ul class="button-group round" style="padding-top:30%">
+		  <li><a href="/" id="admin_buttons_homepage" class="small button">Home</a></li>
+		  <li><a href="/database" id="admin_buttons_homepage" class="small button">Database</a></li>
+		  <li><a href="/sidekiq" id="admin_buttons_homepage" class="small button">Sidekiq</a></li>
+		</ul>
 	</div>
 
 	<div class="large-10 columns">
