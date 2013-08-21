@@ -51,68 +51,20 @@
 	  	<div id='updated' style="text-align:right;">Last updated: <%= Time.now.strftime("%I:%M:%S %p") %></div>
 	</div>
 
-	<div id="BTC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC</h2>
-		<svg id="BTC_Modal_SVG" style="height:600px;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="LTC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/LTC</h2>
-		<svg id="LTC_Modal_SVG" style="height:600px;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="PPC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/PPC</h2>
-		<svg id="PPC_Modal_SVG" style="height:600px;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="NMC_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/NMC</h2>
-		<svg id="NMC_Modal_SVG" style="height:600px;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="XPM_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/XPM</h2>
-		<svg id="XPM_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
+	<!-- Models for the individual graph views for each asset.
+	<%= render 'modal', :asset => "BTC" %>
+	<%= render 'modal', :asset => "LTC" %>
+	<%= render 'modal', :asset => "PPC" %>
+	<%= render 'modal', :asset => "NMC" %>
+	<%= render 'modal', :asset => "XPM" %>
 
-	<div id="AsicMiner_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/AsicMiner</h2>
-		<svg id="AsicMiner_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="AsicMiner_small_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/AsicMiner 100PT</h2>
-		<svg id="AsicMiner_small_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="Advanced_Mining_Corp_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC/Advanced Mining Corp</h2>
-		<svg id="Advanced_Mining_Corp_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
+	<%= render 'modal', :asset => "AsicMiner" %>
+	<%= render 'modal', :asset => "AsicMiner_small" %>
+	<%= render 'modal', :asset => "Advanced_Mining_Corp" %>
 
-	<div id="BTC_Total_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>BTC value of investments over time.</h2>
-		<svg id="BTC_Total_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
-	<div id="USD_Total_Modal" class="reveal-modal" style="display: none; -webkit-transform-origin: 0px 0px;
-								opacity: 1; -webkit-transform: scale(1, 1); visibility: hidden;">
-		<h2>USD value of investments over time.</h2>
-		<svg id="USD_Total_Modal_SVG" style="height:600px;margin-left:auto;margin-right:auto;"></svg>
-		<a class="close-reveal-modal">×</a>
-	</div>
+	<%= render 'modal', :asset => "BTC_Total" %>
+	<%= render 'modal', :asset => "USD_Total" %>
+
 </div>
 
 <script>
