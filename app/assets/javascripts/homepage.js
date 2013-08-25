@@ -24,77 +24,29 @@ function get_BTC_prices() {
 	}];
 }
 
-// Description: This is used ONLY for the bar graph. Sets up the data for bar graph by
-// 	fetching the most important groups of assets. The grouping is done because d3js bargraph
-// 	does not like more than four items per date. Goes through the gon.shortassets array and pushes 
-// 	specific data into seperate array with the associated dates.
-// NOTE --- get_BTC_prices(), asset_prices(), and asset_values() will be merged eventually.
-// 
-// Input: latest assets with dates via gon variable
-// Output: Multi-member array, each member containing a major asset(s) data and dates.
-function asset_prices() {
-	var LTC_and_XPM_worth_in_USD = [];
-	var BTC_worth_in_USD = [];
-	var AMC_worth_in_USD = [];
-	var AsicMiner_worth_in_USD = [];
-
-	for (var i = 0; i < gon.short_assets.length; i++) {
-		asset = gon.short_assets[i];
-		
-		date = new Date(asset.time_changed);
-		
-		LTC_and_XPM_worth_in_USD.push({
-			x: date, 
-			y: (gon.user_info.LTC * asset.LTC * asset.BTC) + 
-			   (gon.user_info.XPM * asset.XPM * asset.BTC) })
-
-		BTC_worth_in_USD.push({
-			x: date, 
-			y: gon.user_info.BTC * asset.BTC})
-
-		AMC_worth_in_USD.push({
-			x: date, 
-			y: gon.user_info.Advanced_Mining_Corp * asset.Advanced_Mining_Corp * asset.BTC})
-
-		AsicMiner_worth_in_USD.push({
-			x: date, 
-			y: (gon.user_info.AsicMiner * asset.AsicMiner * asset.BTC) + 
-			   (gon.user_info.AsicMiner_small * asset.AsicMiner_small * asset.BTC)  })
-	};
-
-return [
-	{	values: LTC_and_XPM_worth_in_USD,
-		key: "LTC & XPM"},
-
-	{	values: BTC_worth_in_USD,
-		key: "BTC"},
-
-	{	values: AMC_worth_in_USD,
-		key: "AMC"},
-
-	{	values: AsicMiner_worth_in_USD,
-		key: "AsicMiner"}
-	];
-}
-
 // Description: This is used for each individual graph to provide data and dates. Goes through
 //  the gon.shortassets array and pushes specific data into seperate array with the associated dates.
-// NOTE --- get_BTC_prices(), asset_prices(), and asset_values() will be merged eventually.
-// 	All other similar functions will be merged into this one.
+// NOTE --- get_BTC_prices() and asset_values() will be merged eventually.
 // 	
-// Input: Latest assets with dates via gon variable, string to determine which asset to fetch.
+// Input: Latest assets with dates via gon variable, string to determine which asset to fetch, string
+// 	to say if the data should take into account the amount of assets the user contains.
 // Output: Single member array, each member containing major asset data and dates.
 // 
 // 							/- A string denoting what asset data to fetch. Look at the underlying
 // 							|  switch .. case to see possible strings.
 // 							|
-function asset_values(asset_option)
+// 							|				/- This is used exclusively for the bar chart on the
+// 							|				|  homepage. Take into account users asset amount.
+// 							|				|
+function asset_values(asset_option, use_total_USD)
 {
 	var data = [];
 	
 	for (var i = 0; i < gon.short_assets.length; i++ ) 
 	{
 		var asset = gon.short_assets[i]
+
+		// d3js wants the time in its special way.
 		var date = new Date(asset.time_changed);
 
 		// I currently do not know how to have a string turn into a variable name, so I am stuck
@@ -105,29 +57,54 @@ function asset_values(asset_option)
 		switch (asset_option)
 		{
 			case "LTC":
-				data.push({ x: date.getTime(), y: asset.LTC }); 
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.LTC * gon.user_info.LTC * asset.BTC}); 
+				else
+					data.push({ x: date.getTime(), y: asset.LTC }); 
 				break;
 			case "BTC":
-				data.push({ x: date.getTime(), y: asset.BTC });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.BTC * gon.user_info.BTC });
+				else
+					data.push({ x: date.getTime(), y: asset.BTC });
 				break;
 			case "XPM":
-				data.push({ x: date.getTime(), y: asset.XPM });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.XPM * gon.user_info.XPM * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.XPM });
 				break;
 			case "PPC":
-				data.push({ x: date.getTime(), y: asset.PPC });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.PPC * gon.user_info.PPC * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.PPC });
 				break;
 			case "NMC":
-				data.push({ x: date.getTime(), y: asset.NMC });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.NMC * gon.user_info.NMC * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.NMC });
 				break;
 			case "AsicMiner":
-				data.push({ x: date.getTime(), y: asset.AsicMiner });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.AsicMiner * gon.user_info.AsicMiner * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.AsicMiner });
 				break;
 			case "AsicMiner_small":
-				data.push({ x: date.getTime(), y: asset.AsicMiner_small });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.AsicMiner_small * gon.user_info.AsicMiner_small * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.AsicMiner_small });
 				break;
 			case "Advanced_Mining_Corp":
-				data.push({ x: date.getTime(), y: asset.Advanced_Mining_Corp });
+				if (use_total_USD == "total_USD")
+					data.push({ x: date.getTime(), y: asset.Advanced_Mining_Corp * gon.user_info.Advanced_Mining_Corp * asset.BTC});
+				else
+					data.push({ x: date.getTime(), y: asset.Advanced_Mining_Corp });
 				break;
+			// The two totals under me are solely for the line chart within the modals.
 			case "BTC_Total":
 				data.push({ x: date.getTime(), y: 
 					gon.user_info.BTC + 
@@ -157,7 +134,10 @@ function asset_values(asset_option)
 				break;
 		}
 	}
-	return [{ values: data, key: asset_option }];
+	// The funky replacing here is to replace all occurances of
+	// the _ character with a space character so it displays 
+	// correctly in the chart legend.
+	return {values: data, key: asset_option.replace(/_/gi, " ") };
 }
 
 // Draws all the charts for the homepage when the page loads. 
@@ -234,44 +214,52 @@ function draw_chart (asset, has_modal) {
 
 	// We do the graph drawing in this massive convaluted function.
 	nv.addGraph(function() {
-		// The USD_Total bargraph on the homepage requires the chart be a .. bar graph! If the graph
-		// being drawn is not a bar graph, use a normal line chart.
-		if (asset == "USD" && modal_state == "_no_Modal")
-			var chart = nv.models.multiBarChart();
-		else
-			var chart = nv.models.lineChart();
-
 		// Sets the tick format for each axis and what data fetch function to use for each graph.
-		if ( (asset == "BTC" || asset == "USD" ) && modal_state == "_no_Modal")
-		{
-			// The non Modal (instantly visible) graphs require the Y axis (time) to display the hour
-			// as well as day, hence a seperate .tickformat configuration.
-			chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
-			chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
+		if ( (asset == "BTC" || asset == "USD" ) && modal_state == "_no_Modal"){
 
 			// I am here to give the two non Modal (instantly visible) graphs their currently
 			// specific data. This will be nicer when I merge the get_BTC_prices(), asset_prices(), 
 			// and asset_values() functions.
-			if (asset == "USD")
-				var data = asset_prices();
-			else if (asset == "BTC")
-				var data = get_BTC_prices();
-		}
-		else
-		{
+			if (asset == "USD"){	
+				// The USD_Total bargraph on the homepage requires the chart be a .. bar graph!
+				var chart = nv.models.multiBarChart();
+				var data = [];
+				data.push(asset_values("BTC", "total_USD"));
+				data.push(asset_values("XPM", "total_USD"));
+				data.push(asset_values("LTC", "total_USD"));
+				data.push(asset_values("AsicMiner", "total_USD"));
+				data.push(asset_values("AsicMiner_small", "total_USD"));
+				data.push(asset_values("Advanced_Mining_Corp", "total_USD"));
+				data.push(asset_values("NMC", "total_USD"));
+				data.push(asset_values("PPC", "total_USD"));
+			} else if (asset == "BTC") {
+				// If it isn't a bar graph, then it is a line graph.
+				var chart = nv.models.lineChart();
+				var data = get_BTC_prices(); 
+			}
+		} else {
+			// If we reach here, we know the chart is in a modal, all of which are line charts.
+			var chart = nv.models.lineChart();
+
 			// The modal graphs (visible when individual asset is clicked) get their own chart
 			// configuration as well as using the new and proper data fetching function.
 			chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d')(new Date(d)) });
 			chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
-			var data = asset_values(asset)
+
+			// d3js wants the data in an aray, so this will be a single member array.
+			var data = [asset_values(asset)];
 		};		
+
+		// The non Modal (instantly visible) graphs require the Y axis (time) to display the hour
+		// as well as day, hence a seperate .tickformat configuration.
+		chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
+		chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
 
 		// I am here for the modal graph showing total USD in assets over time when the user clicks
 		// the Total USD "asset".
-		if (asset == "USD_Total")
-		{
+		if (asset == "USD_Total") {
 			chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
-			var data = asset_values(asset);
+			var data = asset_values(asset); 
 		}
 
 		// Logs what the current chart being drawn is. Will keep this here while adding in extra
