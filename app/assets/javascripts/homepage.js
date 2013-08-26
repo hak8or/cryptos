@@ -187,7 +187,7 @@ window.attachEvent && window.attachEvent("onload",Stuff_todo_on_page_load);
 // is clicked due to the page not actually fully reloading. Page:load is from turbolinks, which
 // fires when the page is reloaded in turbolinks terms.
 // https://github.com/rails/turbolinks/#events <-- for more information
-$(document).on('page:load', Stuff_todo_on_page_load)
+$(document).on('page:load', Stuff_todo_on_page_load);
 
 // Description: Draws each chart on the homepage, including both in modal charts and instantly
 //  visible homepage charts. Currently contains large amounts of if conditional just for two edge 
@@ -253,13 +253,13 @@ function draw_chart (asset, has_modal) {
 		// The non Modal (instantly visible) graphs require the Y axis (time) to display the hour
 		// as well as day, hence a seperate .tickformat configuration.
 		chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
-		chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
+		chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
 
 		// I am here for the modal graph showing total USD in assets over time when the user clicks
 		// the Total USD "asset".
 		if (asset == "USD_Total") {
 			chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
-			var data = asset_values(asset); 
+			var data = [asset_values(asset)]; 
 		}
 
 		// Logs what the current chart being drawn is. Will keep this here while adding in extra
