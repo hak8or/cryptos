@@ -2,32 +2,28 @@ class AverageOldAssets
 	include Sidekiq::Worker
 	sidekiq_options :retry => false
 
-	# Meant to be run only when the workers fail and I need to nuke the new databases due to invalid data or whatever,
-	# NOT for running as a worker all the time like the AverageAssets class.
+	# Meant to be run only when the workers fail and I need to nuke the new databases due to invalid data.
+	#
+	# 				/- What type of averaging are we doing. 5 minutes gets 5 rows and averages them 
+	# 				|  together, 30 minutes gets 30 rows and averages them together.
+	# 				|
 	def perform(minutes = 5)
-		large_table = TimedAsset.all
-
-		# Go through the large table and keep averaging and saving while dropping 
-		# averaged rows. Once the large table has less than 5 remaining rows, it 
-		# means the table has been averaged, so exit the while loop.
-		until large_table.count < minutes do
-			new_table = large_table.shift(minutes)
-
-			if new_table.last.nil?
-				break
-			end
-
-			puts minutes.to_s + " minutes     " + new_table.last.time_changed.to_s
+		# find_in_batches is used because this is going to be run on a memory constrained enviorment.
+		# Previously all the rows were thrown into one variable, and we shifted the rows by minutes,
+		# resulting in horrific slowdowns when the linux swap file began to take over due to not enough
+		# ram.
+		TimedAsset.find_in_batches(batch_size: minutes) do |asset_group|
+			puts minutes.to_s + " minutes     " + asset_group.last.time_changed.to_s
 
 			case minutes
 				when 5
-					row = FiveminuteTimedAsset.new( average(new_table) )
+					row = FiveminuteTimedAsset.new( average(asset_group) )
 				when 30
-					row = ThirtyminuteTimedAsset.new( average(new_table) )
+					row = ThirtyminuteTimedAsset.new( average(asset_group) )
 				when 120
-					row = TwohoursTimedAsset.new( average(new_table) )
+					row = TwohoursTimedAsset.new( average(asset_group) )
 				when 360
-					row = SixhoursTimedAsset.new( average(new_table) )
+					row = SixhoursTimedAsset.new( average(asset_group) )
 			end # end case
 
 			# Using new and then save instead of create since sidekiq does not seem 
