@@ -223,6 +223,8 @@ function draw_chart (asset, has_modal) {
 			if (asset == "USD"){	
 				// The USD_Total bargraph on the homepage requires the chart be a .. bar graph!
 				var chart = nv.models.multiBarChart();
+				chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
+				chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d %I:%M')(new Date(d))});
 				var data = [];
 				data.push(asset_values("BTC", "total_USD"));
 				data.push(asset_values("XPM", "total_USD"));
@@ -235,6 +237,10 @@ function draw_chart (asset, has_modal) {
 			} else if (asset == "BTC") {
 				// If it isn't a bar graph, then it is a line graph.
 				var chart = nv.models.lineChart();
+
+				// Set up the axis for said line graph.
+				chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
+				chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d %I:%M')(new Date(d))});
 				var data = get_BTC_prices(); 
 			}
 		} else {
@@ -248,17 +254,15 @@ function draw_chart (asset, has_modal) {
 
 			// d3js wants the data in an aray, so this will be a single member array.
 			var data = [asset_values(asset)];
-		};		
-
-		// The non Modal (instantly visible) graphs require the Y axis (time) to display the hour
-		// as well as day, hence a seperate .tickformat configuration.
-		chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
-		chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
+		};
 
 		// I am here for the modal graph showing total USD in assets over time when the user clicks
 		// the Total USD "asset".
 		if (asset == "USD_Total") {
+			// Sets the charts axis assuming it is displaying dollars.
+			chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
 			chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
+			
 			var data = [asset_values(asset)]; 
 		}
 
