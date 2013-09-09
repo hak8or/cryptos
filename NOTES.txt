@@ -1,6 +1,12 @@
 ------------------ NOTES ------- NOTES ------- NOTES ------------------
 	- Use highcharts instead? Dojo looks friggen awesome though.
 	- Public release? Keep quetly on github?
+	- I cannot add in extra columns (Assets) dynamically easily without
+		a schema-less (mongodb) database. Adding extra assets past the
+		3 misc asset limits has been on indefenite hold untill I use
+		a new DB.
+		http://stackoverflow.com/questions/14737061/rails-and-mysql-adding-columns-to-a-table-dynamically-based-upon-form-values
+		Actually, I can use Hstore!
 --------------------------------------------------------------
 
 Pass in the last four entires and current minute entry for timed assets. Use JS to parse the

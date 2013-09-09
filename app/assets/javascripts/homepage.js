@@ -41,10 +41,17 @@ function get_BTC_prices() {
 function asset_values(asset_option, use_total_USD)
 {
 	var data = [];
-	
-	for (var i = 0; i < gon.short_assets.length; i++ ) 
+
+	// If we are graphing the large bar graph, drop everything except the last 30 datapoints. Otherwise
+	// just copy the gon.short_assets array over.
+	if (use_total_USD == "total_USD")
+		var short_assets = gon.short_assets.slice(-30);
+	else
+		var short_assets = gon.short_assets;
+
+	for (var i = 0; i < short_assets.length; i++ ) 
 	{
-		var asset = gon.short_assets[i]
+		var asset = short_assets[i];
 
 		// d3js wants the time in its special way.
 		var date = new Date(asset.time_changed);
@@ -145,8 +152,10 @@ function asset_values(asset_option, use_total_USD)
 // Read http://stackoverflow.com/questions/588040/window-onload-vs-document-onload for more info.
 // .onload only allows one function, so a singlefunction containing many other functions is called.
 function Stuff_todo_on_page_load() {
+	// First draw the two main graphs on the page (BTC price and asset bar graph).
 	draw_chart("BTC", "no-modal");
 	draw_chart("USD", "no-modal");
+
 	draw_chart("BTC", "modal");
 	draw_chart("XPM", "modal");
 	draw_chart("PPC", "modal");
@@ -226,7 +235,7 @@ function draw_chart (asset, has_modal) {
 				chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
 				chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d %I:%M')(new Date(d))});
 				var data = [];
-				data.push(asset_values("BTC", "total_USD"));
+				data.push( asset_values("BTC", "total_USD"));
 				data.push(asset_values("XPM", "total_USD"));
 				data.push(asset_values("LTC", "total_USD"));
 				data.push(asset_values("AsicMiner", "total_USD"));

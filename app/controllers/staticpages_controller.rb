@@ -11,6 +11,7 @@ class StaticpagesController < ApplicationController
     @Advanced_Mining_Corp = TimedAsset.last.Advanced_Mining_Corp
     @assets_in_BTC = get_btc_in_assets
 
+    # Used to calculate what the total USD per asset.
     gon.user_info = UserInfo.last
 
     #     !!!!!!!! PLUCK GIVES YOU AN UNORDERED LIST !!!!!!!!
@@ -18,19 +19,20 @@ class StaticpagesController < ApplicationController
     # https://groups.google.com/forum/#!topic/rubyonrails-talk/a8EGtT16qiI
     gon.short_BTC_prices = TimedAsset.order("id desc").limit(720).pluck(:BTC, :time_changed)
 
-    # gon.short_assets = TimedAsset.last(30)
-    # gon.short_assets = FiveminuteTimedAsset.last(30)
-    # gon.short_assets = ThirtyminuteTimedAsset.last(30)
-    # gon.short_assets = TwohoursTimedAsset.last(30)
-    gon.short_assets = SixhoursTimedAsset.last(35)
+    # Data used to display graphs over time.
+      # gon.short_assets = TimedAsset.last(30)
+      # gon.short_assets = FiveminuteTimedAsset.last(30)
+      # gon.short_assets = ThirtyminuteTimedAsset.last(30)
+      # gon.short_assets = TwohoursTimedAsset.last(30)
+    gon.short_assets = SixhoursTimedAsset.last(150)
 
-    # Add in the most recent data for the bar graph as well.
+    # Add in the most recent data for the graphs as well.
     gon.short_assets.push(TimedAsset.last)
 
-    gon.individual_assets = ThirtyminuteTimedAsset.last(100)
-    gon.individual_assets.push(TimedAsset.last)
-
+    # Time fetched from server which is displayed when the page updates
     gon.watch.time = [Time.now.strftime("%I:%M:%S %p")]
+
+    # Homepage coins
     gon.watch.BTC_price = TimedAsset.last.BTC
     gon.watch.BTC_value = UserInfo.last.BTC
     gon.watch.LTC_value = TimedAsset.last.LTC * UserInfo.last.LTC
@@ -38,10 +40,12 @@ class StaticpagesController < ApplicationController
     gon.watch.NMC_value = TimedAsset.last.NMC * UserInfo.last.NMC
     gon.watch.XPM_value = TimedAsset.last.XPM * UserInfo.last.XPM
 
+    # Homepage investments
     gon.watch.AsicMiner_value = UserInfo.last.AsicMiner * @last_asset.AsicMiner
     gon.watch.AsicMiner_small_value = UserInfo.last.AsicMiner_small * @last_asset.AsicMiner_small
     gon.watch.Advanced_Mining_Corp_value = UserInfo.last.Advanced_Mining_Corp * @last_asset.Advanced_Mining_Corp
 
+    # Homepage totals
     gon.watch.BTC_total_value = @assets_in_BTC
     gon.watch.USD_total_value = @assets_in_BTC * @BTC_USD_VALUE
   end
