@@ -2,14 +2,29 @@ class StaticpagesController < ApplicationController
   def homepage
   	require 'net/http'
 
-    @last_asset = TimedAsset.last
-
-    @BTC_USD_VALUE = TimedAsset.last.BTC
-    @LTC_USD_VALUE = TimedAsset.last.LTC
-    @AsicMiner = TimedAsset.last.AsicMiner
-    @AsicMiner_small = TimedAsset.last.AsicMiner_small
-    @Advanced_Mining_Corp = TimedAsset.last.Advanced_Mining_Corp
-    @assets_in_BTC = get_btc_in_assets
+    #------------------- Homepage asset static display  -----------------
+    # Trying to decrease the total quries to the DB by copying latest data to
+    # a variable and using that var instead of DB for fetching data.
+    asset_values = TimedAsset.last
+    asset_quantity = UserInfo.last
+    
+    # Homepage coins
+    @BTC_price = asset_values.BTC
+    @BTC_value = asset_quantity.BTC
+    @LTC_value = asset_values.LTC * asset_quantity.LTC
+    @PPC_value = asset_values.PPC * asset_quantity.PPC
+    @NMC_value = asset_values.NMC * asset_quantity.NMC
+    @XPM_value = asset_values.XPM * asset_quantity.XPM
+    
+    # Homepage investments
+    @AsicMiner_value = asset_quantity.AsicMiner * asset_values.AsicMiner
+    @AsicMiner_small_value = asset_quantity.AsicMiner_small * asset_values.AsicMiner_small
+    @Advanced_Mining_Corp_value = asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp
+    
+    # Homepage totals
+    @BTC_total_value = get_btc_in_assets()
+    @USD_total_value = get_btc_in_assets() * asset_values.BTC
+    #------------------- Homepage asset static display  -----------------
 
     # Used to calculate what the total USD per asset.
     gon.user_info = UserInfo.last
@@ -33,21 +48,21 @@ class StaticpagesController < ApplicationController
     gon.watch.time = [Time.now.strftime("%I:%M:%S %p")]
 
     # Homepage coins
-    gon.watch.BTC_price = TimedAsset.last.BTC
-    gon.watch.BTC_value = UserInfo.last.BTC
-    gon.watch.LTC_value = TimedAsset.last.LTC * UserInfo.last.LTC
-    gon.watch.PPC_value = TimedAsset.last.PPC * UserInfo.last.PPC
-    gon.watch.NMC_value = TimedAsset.last.NMC * UserInfo.last.NMC
-    gon.watch.XPM_value = TimedAsset.last.XPM * UserInfo.last.XPM
+    gon.watch.BTC_price = asset_values.BTC
+    gon.watch.BTC_value = asset_quantity.BTC
+    gon.watch.LTC_value = asset_values.LTC * asset_quantity.LTC
+    gon.watch.PPC_value = asset_values.PPC * asset_quantity.PPC
+    gon.watch.NMC_value = asset_values.NMC * asset_quantity.NMC
+    gon.watch.XPM_value = asset_values.XPM * asset_quantity.XPM
 
     # Homepage investments
-    gon.watch.AsicMiner_value = UserInfo.last.AsicMiner * @last_asset.AsicMiner
-    gon.watch.AsicMiner_small_value = UserInfo.last.AsicMiner_small * @last_asset.AsicMiner_small
-    gon.watch.Advanced_Mining_Corp_value = UserInfo.last.Advanced_Mining_Corp * @last_asset.Advanced_Mining_Corp
+    gon.watch.AsicMiner_value = asset_quantity.AsicMiner * asset_values.AsicMiner
+    gon.watch.AsicMiner_small_value = asset_quantity.AsicMiner_small * asset_values.AsicMiner_small
+    gon.watch.Advanced_Mining_Corp_value = asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp
 
     # Homepage totals
-    gon.watch.BTC_total_value = @assets_in_BTC
-    gon.watch.USD_total_value = @assets_in_BTC * @BTC_USD_VALUE
+    gon.watch.BTC_total_value = get_btc_in_assets()
+    gon.watch.USD_total_value = get_btc_in_assets() * asset_values.BTC
   end
 
   def about

@@ -1,41 +1,41 @@
 <div class="row full-width" style="padding-top:2%">
 	<div class="large-2 columns"> 
-		<h1 id="BTC_price" class="subheader">BTC: $<%= @BTC_USD_VALUE.round(2) %></h2>
+		<h1 id="BTC_price" class="subheader">BTC: $<%= @BTC_price.round(2) %></h2>
 		
 		<h4 class="subheader" style="padding-top:40px">Altcoins</h4>
 			<span id="BTC_value" data-reveal-id="BTC_Modal" class="has_chart">
-				BTC: <%= UserInfo.last.BTC.round(4) %>
+				BTC: <%= @BTC_value.round(4) %>
 			</span><br>
 			<span id="LTC_value" data-reveal-id="LTC_Modal" class="has_chart">
-				LTC: <%= (UserInfo.last.LTC * @last_asset.LTC).round(4) %> BTC 
+				LTC: <%= @LTC_value.round(4) %> BTC 
 			</span><br>
 			<span id="PPC_value" data-reveal-id="PPC_Modal" class="has_chart">
-				PPC: <%= (UserInfo.last.PPC * @last_asset.PPC).round(4) %> BTC
+				PPC: <%= @PPC_value.round(4) %> BTC
 			</span><br>
 			<span id="NMC_value" data-reveal-id="NMC_Modal" class="has_chart">
-				NMC: <%= (UserInfo.last.NMC * @last_asset.NMC).round(4) %> BTC
+				NMC: <%= @NMC_value.round(4) %> BTC
 			</span><br>
 			<span id="XPM_value" data-reveal-id="XPM_Modal" class="has_chart">
-				XPM: <%= (UserInfo.last.XPM * @last_asset.XPM).round(4) %> BTC
+				XPM: <%= @XPM_value.round(4) %> BTC
 			</span><br>
 
 		<h4 class="subheader" style="padding-top:40px">Investments</h4>
 			<span id="AsicMiner_value" data-reveal-id="AsicMiner_Modal" class="has_chart">
-				AsicMiner: <%= (UserInfo.last.AsicMiner * @last_asset.AsicMiner).round(4) %> BTC
+				AsicMiner: <%= @AsicMiner_value.round(4) %> BTC
 			</span><br>
 			<span id="AsicMiner_small_value" data-reveal-id="AsicMiner_small_Modal" class="has_chart">
-				AsicMiner small: <%= (UserInfo.last.AsicMiner_small * @last_asset.AsicMiner_small).round(4) %> BTC 
+				AsicMiner small: <%= @AsicMiner_small_value.round(4) %> BTC 
 			</span><br>
 			<span id="Advanced_Mining_Corp_value" data-reveal-id="Advanced_Mining_Corp_Modal" class="has_chart">
-				Advanced Mining Corp: <%=(UserInfo.last.Advanced_Mining_Corp * @last_asset.Advanced_Mining_Corp).round(4)%> BTC 
+				Advanced Mining Corp: <%= @Advanced_Mining_Corp_value.round(4) %> BTC 
 			</span><br>
 
 		<h4 class="subheader" style="padding-top:40px">Totals</h4>
 			<span id="BTC_total_value" data-reveal-id="BTC_Total_Modal" class="has_chart"> 
-				Total BTC of assets: <%= @assets_in_BTC.round(5) %> 
+				Total BTC of assets: <%= @BTC_total_value.round(5) %> 
 			</span><br>
 			<span id="USD_total_value" data-reveal-id="USD_Total_Modal" class="has_chart"> 
-				Total USD of assets: $<%= (@assets_in_BTC * @BTC_USD_VALUE).round(2) %> 
+				Total USD of assets: $<%= @USD_total_value.round(2) %> 
 			</span><br>
 
 		<ul class="button-group round" style="padding-top:30%">
