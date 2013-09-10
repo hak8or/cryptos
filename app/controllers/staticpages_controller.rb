@@ -2,29 +2,60 @@ class StaticpagesController < ApplicationController
   def homepage
   	require 'net/http'
 
-    #------------------- Homepage asset static display  -----------------
+    #----------------------- Homepage asset display  -----------------------
     # Trying to decrease the total quries to the DB by copying latest data to
     # a variable and using that var instead of DB for fetching data.
     asset_values = TimedAsset.last
     asset_quantity = UserInfo.last
-    
-    # Homepage coins
-    @BTC_price = asset_values.BTC
-    @BTC_value = asset_quantity.BTC
-    @LTC_value = asset_values.LTC * asset_quantity.LTC
-    @PPC_value = asset_values.PPC * asset_quantity.PPC
-    @NMC_value = asset_values.NMC * asset_quantity.NMC
-    @XPM_value = asset_values.XPM * asset_quantity.XPM
-    
-    # Homepage investments
-    @AsicMiner_value = asset_quantity.AsicMiner * asset_values.AsicMiner
-    @AsicMiner_small_value = asset_quantity.AsicMiner_small * asset_values.AsicMiner_small
-    @Advanced_Mining_Corp_value = asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp
-    
-    # Homepage totals
-    @BTC_total_value = get_btc_in_assets()
-    @USD_total_value = get_btc_in_assets() * asset_values.BTC
-    #------------------- Homepage asset static display  -----------------
+
+    # Holds the asset values for the homepage. This is the initial gon version,
+    # meaning it contains what will be displayed upon page load. The latter version
+    # is the gon.watch version which is periodically refreshed.
+    gon.asset_values_initial = {
+      # Homepage coins
+      :BTC_price => asset_values.BTC,
+      :BTC_value => asset_quantity.BTC,
+      :LTC_value => asset_values.LTC * asset_quantity.LTC,
+      :PPC_value => asset_values.PPC * asset_quantity.PPC,
+      :NMC_value => asset_values.NMC * asset_quantity.NMC,
+      :XPM_value => asset_values.XPM * asset_quantity.XPM,
+     
+      # Homepage investments
+      :AsicMiner_value => asset_quantity.AsicMiner * asset_values.AsicMiner,
+      :AsicMiner_small_value => asset_quantity.AsicMiner_small * asset_values.AsicMiner_small,
+      :Advanced_Mining_Corp_value => asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp,
+     
+      # Homepage totals
+      :BTC_total_value => get_btc_in_assets(asset_values, asset_quantity),
+      :USD_total_value => get_btc_in_assets(asset_values, asset_quantity) * asset_values.BTC,
+
+      # The time when this data was fetched.
+      :time_updated => [Time.now.strftime("%I:%M:%S %p")]
+    }
+
+    # Same as above but the gon.watch version which gets refreshed periodically.
+    gon.watch.asset_values = {
+      # Homepage coins
+      :BTC_price => asset_values.BTC,
+      :BTC_value => asset_quantity.BTC,
+      :LTC_value => asset_values.LTC * asset_quantity.LTC,
+      :PPC_value => asset_values.PPC * asset_quantity.PPC,
+      :NMC_value => asset_values.NMC * asset_quantity.NMC,
+      :XPM_value => asset_values.XPM * asset_quantity.XPM,
+     
+      # Homepage investments
+      :AsicMiner_value => asset_quantity.AsicMiner * asset_values.AsicMiner,
+      :AsicMiner_small_value => asset_quantity.AsicMiner_small * asset_values.AsicMiner_small,
+      :Advanced_Mining_Corp_value => asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp,
+     
+      # Homepage totals
+      :BTC_total_value => get_btc_in_assets(asset_values, asset_quantity),
+      :USD_total_value => get_btc_in_assets(asset_values, asset_quantity) * asset_values.BTC,
+
+      # The time when this data was fetched.
+      :time_updated => [Time.now.strftime("%I:%M:%S %p")]
+    }
+    #----------------------- Homepage asset display  -----------------------
 
     # Used to calculate what the total USD per asset.
     gon.user_info = UserInfo.last
@@ -34,7 +65,7 @@ class StaticpagesController < ApplicationController
     # https://groups.google.com/forum/#!topic/rubyonrails-talk/a8EGtT16qiI
     gon.short_BTC_prices = TimedAsset.order("id desc").limit(720).pluck(:BTC, :time_changed)
 
-    # Data used to display graphs over time.
+    # Data used to display graphs over time for each asset.
       # gon.short_assets = TimedAsset.last(30)
       # gon.short_assets = FiveminuteTimedAsset.last(30)
       # gon.short_assets = ThirtyminuteTimedAsset.last(30)
@@ -43,26 +74,6 @@ class StaticpagesController < ApplicationController
 
     # Add in the most recent data for the graphs as well.
     gon.short_assets.push(TimedAsset.last)
-
-    # Time fetched from server which is displayed when the page updates
-    gon.watch.time = [Time.now.strftime("%I:%M:%S %p")]
-
-    # Homepage coins
-    gon.watch.BTC_price = asset_values.BTC
-    gon.watch.BTC_value = asset_quantity.BTC
-    gon.watch.LTC_value = asset_values.LTC * asset_quantity.LTC
-    gon.watch.PPC_value = asset_values.PPC * asset_quantity.PPC
-    gon.watch.NMC_value = asset_values.NMC * asset_quantity.NMC
-    gon.watch.XPM_value = asset_values.XPM * asset_quantity.XPM
-
-    # Homepage investments
-    gon.watch.AsicMiner_value = asset_quantity.AsicMiner * asset_values.AsicMiner
-    gon.watch.AsicMiner_small_value = asset_quantity.AsicMiner_small * asset_values.AsicMiner_small
-    gon.watch.Advanced_Mining_Corp_value = asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp
-
-    # Homepage totals
-    gon.watch.BTC_total_value = get_btc_in_assets()
-    gon.watch.USD_total_value = get_btc_in_assets() * asset_values.BTC
   end
 
   def about
@@ -127,17 +138,23 @@ class StaticpagesController < ApplicationController
   #======================================= PRIVATE =======================================
   private
 
-  def get_btc_in_assets
-  	user_info = UserInfo.last
-  	
-  	btc_asset_amount = user_info.BTC + 
-			(user_info.LTC * TimedAsset.last.LTC) + 
-			(user_info.PPC * TimedAsset.last.PPC) +
-			(user_info.NMC * TimedAsset.last.NMC) +
-			(user_info.XPM * TimedAsset.last.XPM) +
-			(user_info.AsicMiner * TimedAsset.last.AsicMiner) +
-			(user_info.AsicMiner_small * TimedAsset.last.AsicMiner_small) +
-			(user_info.Advanced_Mining_Corp * TimedAsset.last.Advanced_Mining_Corp)
+  # Description: Adds up all the assets for the user and returns the amount in BTC.
+  #  
+  # Input: Quantity of each asset and each asset's value
+  # Output: The total worth of all the assets the user has in BTC.
+  #  
+  #                          /- The value of each asset.
+  #                          |            /- The quantity of each asset.
+  #                          |            |
+  def get_btc_in_assets(asset_values, asset_quantity)
+  	btc_asset_amount = asset_quantity.BTC + 
+			(asset_quantity.LTC * asset_values.LTC) + 
+			(asset_quantity.PPC * asset_values.PPC) +
+			(asset_quantity.NMC * asset_values.NMC) +
+			(asset_quantity.XPM * asset_values.XPM) +
+			(asset_quantity.AsicMiner * asset_values.AsicMiner) +
+			(asset_quantity.AsicMiner_small * asset_values.AsicMiner_small) +
+			(asset_quantity.Advanced_Mining_Corp * asset_values.Advanced_Mining_Corp)
 
   	return btc_asset_amount
   end

@@ -7,55 +7,35 @@ $(document).ready ->
   renew_Time = (data) ->
     $('#updated').text("Last updated: " + data)
 
-  renew_BTC_price = (data) ->
-    $('#BTC_price').text("BTC: $" + data.toFixed(2) )
+  display_asset_values = (assets) ->
+    # Homepage coins
+    $('#BTC_price').text("BTC: $" + assets.BTC_price.toFixed(2))
+    $('#BTC_value').text("BTC: " + assets.BTC_value.toFixed(4))
+    $('#LTC_value').text("LTC: " + assets.LTC_value.toFixed(4) + " BTC")
+    $('#PPC_value').text("PPC: " + assets.PPC_value.toFixed(4) + " BTC")
+    $('#NMC_value').text("NMC: " + assets.NMC_value.toFixed(4) + " BTC")
+    $('#XPM_value').text("XPM: " + assets.XPM_value.toFixed(4) + " BTC")
 
-  # Altcoins section
-  renew_BTC_value = (data) ->
-    $('#BTC_value').text("BTC: " + data.toFixed(4) )  
-  renew_LTC_value = (data) ->
-  	$('#LTC_value').text("LTC: " + data.toFixed(4) + " BTC")
-  renew_PPC_value = (data) ->
-  	$('#PPC_value').text("PPC: " + data.toFixed(4) + " BTC")
-  renew_NMC_value = (data) ->
-  	$('#NMC_value').text("NMC: " + data.toFixed(4) + " BTC")
-  renew_XPM_value = (data) ->
-  	$('#XPM_value').text("XPM: " + data.toFixed(4) + " BTC")
+    # Homepage investments
+    $('#AsicMiner_value').text("AsicMiner: " + assets.AsicMiner_value.toFixed(4) + " BTC")
+    $('#AsicMiner_small_value').text("AsicMiner small: " + assets.AsicMiner_small_value.toFixed(4) + " BTC")
+    $('#Advanced_Mining_Corp_value').text("Advanced Mining Corp: " + assets.Advanced_Mining_Corp_value.toFixed(4) + " BTC")
 
-  # Investments section
-  renew_AsicMiner_value = (data) ->
-    $('#AsicMiner_value').text("AsicMiner: " + data.toFixed(4) + " BTC")
-  renew_AsicMiner_small_value = (data) ->
-    $('#AsicMiner_small_value').text("AsicMiner small: " + data.toFixed(4) + " BTC")
-  renew_Advanced_Mining_Corp_value = (data) ->
-    $('#Advanced_Mining_Corp_value').text("Advanced Mining Corp: " + data.toFixed(4) + " BTC")
+    # Homepage totals
+    $('#BTC_total_value').text("Total BTC of assets: " + assets.BTC_total_value.toFixed(5) + " BTC")
+    $('#USD_total_value').text("Total USD of assets: $" + assets.USD_total_value.toFixed(2))
 
-  # Totals section
-  renew_BTC_total_value = (data) ->
-  	$('#BTC_total_value').text("Total BTC of assets: " + data.toFixed(5) + " BTC")
-  renew_USD_total_value = (data) ->
-  	$('#USD_total_value').text("Total USD of assets: $" + data.toFixed(2))
+    # Time this was fetched
+    $('#updated').text("Updated: " + assets.time_updated)
 
-  #			     /- The gon watch variable name.
-  #			     |          /- How often to call the later function in ms.
-  #          |          |               /- The function to call after previous interval.
-  #          |          |               |
-  gon.watch('time', interval: 10000, renew_Time)
+  # Refreshes the homepage assets
+  #			            /- The gon watch variable name.
+  #			            |          /- How often to call the later function in ms.
+  #                 |          |                    /- The function to call after previous interval.
+  #                 |          |                    |
+  gon.watch('asset_values', interval: 10000, display_asset_values)
 
-  gon.watch('BTC_price', interval: 10000, renew_BTC_price)
-
-  # Altcoins section
-  gon.watch('BTC_value', interval: 10000, renew_BTC_value)
-  gon.watch('LTC_value', interval: 10000, renew_LTC_value)
-  gon.watch('PPC_value', interval: 10000, renew_PPC_value)
-  gon.watch('NMC_value', interval: 10000, renew_NMC_value)
-  gon.watch('XPM_value', interval: 10000, renew_XPM_value)
-
-  # Investments section
-  gon.watch('AsicMiner_value', interval: 10000, renew_AsicMiner_value)
-  gon.watch('AsicMiner_small_value', interval: 10000, renew_AsicMiner_small_value)
-  gon.watch('Advanced_Mining_Corp_value', interval: 10000, renew_Advanced_Mining_Corp_value)
-
-  # Totals section
-  gon.watch('BTC_total_value', interval: 10000, renew_BTC_total_value)
-  gon.watch('USD_total_value', interval: 10000, renew_USD_total_value)
+  # Displays the initial data for the homepage assets when the page loads.
+  # gon.watch only runs after the time interval passes instead of immediatly, so this does the
+  # exact same as when gon.watch.asset_values refreshes but immediatly instead of waiting first.
+  display_asset_values(gon.asset_values_initial)
