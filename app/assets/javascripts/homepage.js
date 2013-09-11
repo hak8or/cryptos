@@ -28,8 +28,9 @@ function get_BTC_prices() {
 //  the gon.shortassets array and pushes specific data into seperate array with the associated dates.
 // NOTE --- get_BTC_prices() and asset_values() will be merged eventually.
 // 	
-// Input: Latest assets with dates via gon variable, string to determine which asset to fetch, string
-// 	to say if the data should take into account the amount of assets the user contains.
+// Input: Latest assets with dates via global gon variable, string to determine which asset to fetch, 
+// 	string to say if the data should take into account the amount of assets the user contains, and how
+// 	many data points to draw.
 // Output: Single member array, each member containing major asset data and dates.
 // 
 // 							/- A string denoting what asset data to fetch. Look at the underlying
@@ -38,16 +39,17 @@ function get_BTC_prices() {
 // 							|				/- This is used exclusively for the bar chart on the
 // 							|				|  homepage. Take into account users asset amount.
 // 							|				|
-function asset_values(asset_option, use_total_USD)
+// 							|				|			/- How many data points to graph.
+// 							|				|			|				
+function asset_values(asset_option, use_total_USD, data_points)
 {
+	// If no data_points value was given, default to 35.
+	data_points = data_points || 35;
+
 	var data = [];
 
-	// If we are graphing the large bar graph, drop everything except the last 30 datapoints. Otherwise
-	// just copy the gon.short_assets array over.
-	if (use_total_USD == "total_USD")
-		var short_assets = gon.short_assets.slice(-30);
-	else
-		var short_assets = gon.short_assets;
+	// Copy only the amount of data points we want to graph.
+	var short_assets = gon.short_assets.slice(data_points * -1);
 
 	for (var i = 0; i < short_assets.length; i++ ) 
 	{
@@ -152,20 +154,23 @@ function asset_values(asset_option, use_total_USD)
 // Read http://stackoverflow.com/questions/588040/window-onload-vs-document-onload for more info.
 // .onload only allows one function, so a singlefunction containing many other functions is called.
 function Stuff_todo_on_page_load() {
-	// First draw the two main graphs on the page (BTC price and asset bar graph).
-	draw_chart("BTC", "no-modal");
-	draw_chart("USD", "no-modal");
+	// Draws all the charts on the homepage. no-modal and modal says if the graph will be displayed
+	// in a modal (when clicked a small popup shows up) or just on the homepage.
+	draw_chart("BTC", "no-modal"); // The massive line graph on the homepage for BTC price
+	draw_chart("USD", "no-modal", 60); // Bar Chart on homepage showing asset distribution.
 
-	draw_chart("BTC", "modal");
-	draw_chart("XPM", "modal");
-	draw_chart("PPC", "modal");
-	draw_chart("NMC", "modal");
-	draw_chart("LTC", "modal");
-	draw_chart("AsicMiner", "modal");
-	draw_chart("AsicMiner_small", "modal");
-	draw_chart("Advanced_Mining_Corp", "modal");
-	draw_chart("BTC_Total", "modal");
-	draw_chart("USD_Total", "modal");
+	draw_chart("BTC", "modal", 100); // BTC price in terms of USD over time.
+	draw_chart("XPM", "modal", 100); // XPM price in terms of BTC over time.
+	draw_chart("PPC", "modal", 100); // PPC price in terms of BTC over time.
+	draw_chart("NMC", "modal", 100); // NMC price in terms of BTC over time.
+	draw_chart("LTC", "modal", 100); // LTC price in terms of BTC over time.
+
+	draw_chart("AsicMiner", "modal", 100); // AsicMiner price in terms of BTC over time.
+	draw_chart("AsicMiner_small", "modal", 100); // AsicMiner_small price in terms of BTC over time.
+	draw_chart("Advanced_Mining_Corp", "modal", 100); // AMC price in terms of BTC over time.
+
+	draw_chart("BTC_Total", "modal", 800); // The total amount of BTC in assets over time.
+	draw_chart("USD_Total", "modal", 100); // The total amount of USD in assets over time.
 
 	// This is here because you cannot use css (from what I know) to set the width of an element based
 	// on the screen resolution, and instead can base the percentage only on the parent element.
@@ -214,7 +219,10 @@ $(document).on('page:load', Stuff_todo_on_page_load);
 //  					|		/- Is this chart within a modal? If not, it means the chart is 
 //  					|		|  instantly visible on the homepage.
 //  					|		|
-function draw_chart (asset, has_modal) {
+function draw_chart (asset, has_modal, data_points) {
+	// If no data_points were given, default to 30.
+	data_points = data_points || 30;
+
 	// General cleanup of the has_modal input string.
 	if (has_modal == "no-modal" || has_modal == "no_modal" || has_modal == null)
 		var modal_state = "_no_Modal";
@@ -235,14 +243,14 @@ function draw_chart (asset, has_modal) {
 				chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
 				chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d %I:%M')(new Date(d))});
 				var data = [];
-				data.push( asset_values("BTC", "total_USD"));
-				data.push(asset_values("XPM", "total_USD"));
-				data.push(asset_values("LTC", "total_USD"));
-				data.push(asset_values("AsicMiner", "total_USD"));
-				data.push(asset_values("AsicMiner_small", "total_USD"));
-				data.push(asset_values("Advanced_Mining_Corp", "total_USD"));
-				data.push(asset_values("NMC", "total_USD"));
-				data.push(asset_values("PPC", "total_USD"));
+				data.push(asset_values("BTC", "total_USD", data_points));
+				data.push(asset_values("XPM", "total_USD", data_points));
+				data.push(asset_values("LTC", "total_USD", data_points));
+				data.push(asset_values("AsicMiner", "total_USD", data_points));
+				data.push(asset_values("AsicMiner_small", "total_USD", data_points));
+				data.push(asset_values("Advanced_Mining_Corp", "total_USD", data_points));
+				data.push(asset_values("NMC", "total_USD", data_points));
+				data.push(asset_values("PPC", "total_USD", data_points));
 			} else if (asset == "BTC") {
 				// If it isn't a bar graph, then it is a line graph.
 				var chart = nv.models.lineChart();
@@ -262,7 +270,7 @@ function draw_chart (asset, has_modal) {
 			chart.yAxis.tickFormat(function(d) { return d3.format(',.5f')(d) });
 
 			// d3js wants the data in an aray, so this will be a single member array.
-			var data = [asset_values(asset)];
+			var data = [asset_values(asset, "no_total_USD", data_points)];
 		};
 
 		// I am here for the modal graph showing total USD in assets over time when the user clicks
@@ -272,7 +280,7 @@ function draw_chart (asset, has_modal) {
 			chart.xAxis.tickFormat(function(d) {return d3.time.format('%b %d %I:%M')(new Date(d))});
 			chart.yAxis.tickFormat(function(d) {return "$" + d3.format(',.2f')(d) });
 			
-			var data = [asset_values(asset)]; 
+			var data = [asset_values(asset, "no_total_USD", data_points)]; 
 		}
 
 		// Logs what the current chart being drawn is. Will keep this here while adding in extra
