@@ -1,7 +1,7 @@
 <br>
 <div class="row full-width" style="margin-left: 20px">
   <div class="large-2 columns">
-    <p style="padding-top:20px">Resets the averages DB's and initiates fetching.</p>
+    <p style="padding-top:20px">Resets the averages DB's.</p>
     <%= button_to "Setup", {:action => "Setup"}, 
         {class: "button secondary large", style: "margin-left:40px"} %>
 
@@ -11,12 +11,6 @@
 
     <p style="padding-top:20px">Fills the averaging tables for all past data points using the 1 minute table.</p>
     <%= button_to "populate average tables", {:action => "do_old_assets_averaging"}, 
-        {class: "button small secondary", style: "margin-left:40px"} %>
-
-    <p style="padding-top:20px">Start the workers for fetching data from associated API's, saving the data, and 
-    generates a new average datapoint for each average table in an interval of appropriate
-    minutes.</p>
-    <%= button_to "Beging Logging", {:action => "start_log"}, 
         {class: "button small secondary", style: "margin-left:40px"} %>
 
     <ul class="button-group round" style="padding-top:30%">

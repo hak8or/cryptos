@@ -1,45 +1,30 @@
 class Setup
 	include Sidekiq::Worker
 
-	# This is meant to act as a one button solution for starting
-	# logging and filling the average tables. If setup is run after
-	# being run earlier, restart the fetching/averaging tables and
-	# redo the average tables.
+	# This is meant to be a one button solution for clearing the
+	# database of any muck it could slowely build up as well as 
+	# redoing all the average tables.
 	# !!! SIDEKIQ SLOWELY ACCEPTS LARGE AMOUNTS OF JOBS, DELAYS !!!
 	def perform
 		puts " ------ Initiating Setup!"
 		clean_log
 		send_massage("log", "Starting setup")
 
-		# Step 1: Stop all possible workers in the default queue.
-		clear_workers("ALL")
-
-		# Step 2: Make sure the average tables are clean
+		# Step 1: Make sure the average tables are clean
 		CleanAveragesDB.perform_async
 
-		# Step 3: Fill average tables with appropriate data from 1 minute table
+		# Step 2: Fill average tables with appropriate data from 1 minute table
 		# 		  only after step 2 is complete.
-		wait_for_workers
+		sleep 5 # Be sure that we have enough time for CleanAveragesDB to start.
+		wait_for_workers()
 		AverageOldAssets.perform_async(5)
 	    AverageOldAssets.perform_async(30)
 	    AverageOldAssets.perform_async(120)
 	    AverageOldAssets.perform_async(360)
 
-	    # Step 4: Start the 1 minute data fetch worker after step 3 is done.
-	    sleep 10 # Delay to allow the averageoldassets methods to start because
-	    		 # Sidekiq seems to have a large delay when adding many workers.
-	    wait_for_workers
-	    HardWorker.perform_async
-
-	    # Step 5: Start the x minute averaging workers.
-	    AverageAssets.perform_async(5)
-	    AverageAssets.perform_async(30)
-	    AverageAssets.perform_async(120)
-	    AverageAssets.perform_async(360)
-
-	    # So done with setup appears after step 5 logs appear.
-	    sleep 3
-
+	    # Step 3: Wait for the averaging to finish and then indicate that 
+	    # setup is done.
+	    wait_for_workers()
 	    send_massage("log", "Done with Setup")
 	    puts " ------ Done with Setup!"
 	end
