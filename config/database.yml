@@ -3,7 +3,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: cryptosdb
+  database: cryptos_development
   pool: 20
   checkout_timeout: 10
   dead_connection_timeout: 10
@@ -17,7 +17,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: cryptosdb
+  database: cryptos_test
   pool: 20
   checkout_timeout: 10
   dead_connection_timeout: 10
@@ -28,7 +28,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: cryptosdb
+  database: cryptos
   pool: 20
   checkout_timeout: 10
   dead_connection_timeout: 10
