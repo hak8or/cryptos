@@ -289,6 +289,10 @@ _EOF_
   echo "  [6/5] Generating tmuxinator profile"
   echo "----FROM SCRIPT ECHO---- Generating tmux profile for cryptos and stack" &>>$log_location
 
+  # Have to make sure the file and directory exist first.
+  cd $working_directory &>>$log_location
+  mkdir .tmuxinator &>>$log_location
+  touch $working_directory/.tmuxinator/cryptos.yml &>>$log_location
   cat <<- _EOF_ >$working_directory/.tmuxinator/cryptos.yml
 
 # ~/.tmuxinator/cryptos.yml
