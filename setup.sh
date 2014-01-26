@@ -286,7 +286,7 @@ _EOF_
 
 # If the user wishes to be able to start up the cryptos site and all the required services,
 # all that is needed is a simple tmuxinator cryptos command and everything is up and running.
-  echo "  [6/5] Generating tmuxinator profile"
+  echo "  [6/6] Generating tmuxinator profile"
   echo "----FROM SCRIPT ECHO---- Generating tmux profile for cryptos and stack" &>>$log_location
 
   # Have to make sure the file and directory exist first.
